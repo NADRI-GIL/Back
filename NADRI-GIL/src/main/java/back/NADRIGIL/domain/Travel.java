@@ -24,7 +24,7 @@ public class Travel {
     @ManyToMany(mappedBy = "travels")
     private List<Category> categories = new ArrayList<>();
 
-    //private float[] coordinate;
+    private float[] coordinate;
 
     @OneToMany(mappedBy = "travel")
     private List<Review> reviews = new ArrayList<>();

@@ -22,11 +22,11 @@ public class Course {
     )   //중간테이블로 해줘야함(다대다 라)
     private List<Travel> travels = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     private String name;
 
-    //private int[] order;
+    //private int[] order;      //테이블을 따로 만들기
 }

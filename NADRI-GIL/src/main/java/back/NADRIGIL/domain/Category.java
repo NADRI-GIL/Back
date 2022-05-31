@@ -24,7 +24,7 @@ public class Category {
     )   //중간테이블로 해줘야함(다대다 라)
     private List<Travel> travels = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
 
