@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Setter @Getter
+@Table(name = "likes")
 public class Like {
 
     @Id @GeneratedValue
