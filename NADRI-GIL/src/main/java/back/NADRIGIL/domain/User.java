@@ -11,15 +11,17 @@ import java.util.List;
 @Getter @Setter
 public class User {
 
-    @Id @GeneratedValue
-    @Column(name="member_id")
-    private long id;
+    @Id
+    @Column(name="user_id")
+    private String id;
+
+    //private String makeId;
 
     private String password;
 
     private String name;
 
-    private int birth;
+    private String birth;
 
     private String email;
 

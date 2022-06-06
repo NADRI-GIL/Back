@@ -20,7 +20,7 @@ public class UserRepository {
         em.persist(user);
     }   //회원 저장
 
-    public User findOne(Long id) {
+    public User findOne(String id) {
         return em.find(User.class, id);
     }   //회원 단건 조회
 
@@ -29,9 +29,15 @@ public class UserRepository {
                 .getResultList();
     }   //회원 리스트 조회
 
-    public List<User> findByName(String name) {
-        return em.createQuery("select u from User u where u.name = :name", User.class)
-                .setParameter("name", name)
+    public List<User> findByID(String id) {
+        return em.createQuery("select u from User u where u.id = :id", User.class)
+                .setParameter("id", id)
                 .getResultList();
-    }   //이름으로 조회할 때
+    }   //아이디로 조회할 때
+
+    public List<User> findByEmail(String email) {
+        return em.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+    }   //이메일로 조회할 때
 }
