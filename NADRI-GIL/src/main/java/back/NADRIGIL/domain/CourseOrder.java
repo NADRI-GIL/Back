@@ -2,28 +2,25 @@ package back.NADRIGIL.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CollectionId;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-public class Review {
+public class CourseOrder {
 
     @Id @GeneratedValue
-    @Column(name = "review_id")
+    @Column(name = "course_order_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_id")
     private Travel travel;
 
-    private int star;
-
-    private String content;
-
-    private String image;
+    private int order;
 }

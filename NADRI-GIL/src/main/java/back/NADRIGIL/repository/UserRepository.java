@@ -29,7 +29,7 @@ public class UserRepository {
                 .getResultList();
     }   //회원 리스트 조회
 
-    public List<User> findByID(String id) {
+    public List<User> findByID(Long id) {
         return em.createQuery("select u from User u where u.id = :id", User.class)
                 .setParameter("id", id)
                 .getResultList();

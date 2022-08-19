@@ -7,11 +7,10 @@ import javax.persistence.*;
 
 @Entity
 @Setter @Getter
-@Table(name = "likes")
-public class Like {
+public class Heart {
 
     @Id @GeneratedValue
-    @Column(name = "like_id")
+    @Column(name = "heart_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,4 +20,6 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_id")
     private Travel travel;
+
+    private Boolean is_delete;
 }

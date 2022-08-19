@@ -15,18 +15,14 @@ public class Course {
     @Column(name = "course_id")
     private Long id;
 
-    @ManyToMany
-    @JoinTable(name = "course_travel",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "travel_id")
-    )   //중간테이블로 해줘야함(다대다 라)
-    private List<Travel> travels = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     private String name;
 
-    //private int[] order;      //테이블을 따로 만들기
+    private String theme;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)      // cascade all
+    private List<CourseOrder> courseOrders = new ArrayList<>();
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,7 +19,9 @@ public class Notice {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private LocalDateTime writeDate;
+    private LocalDate registerDate;
 
     private String content;
+
+    private String tag;
 }

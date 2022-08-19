@@ -25,7 +25,7 @@ public class UserService {
      * 회원가입
      */
     @Transactional  //쓰기도 가능함 readonly 안해서
-    public String join(User user) {
+    public Long join(User user) {
 
         validateDuplicateUser(user);    //중복 회원 검증
         userRepository.save(user);
