@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public  class CustomResponseBody<T> {
+public class CustomResponseBody<T> {
     private int resultCode;
     private String resultMsg;
     private List<T> list;
