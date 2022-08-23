@@ -25,7 +25,7 @@ public class Travel extends BaseTimeEntity{
     private String address;
 
     @ColumnDefault("0")
-    private String like_count;
+    private int like_count;
 
     private String info;
 

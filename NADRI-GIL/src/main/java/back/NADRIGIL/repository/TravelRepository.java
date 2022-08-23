@@ -30,5 +30,13 @@ public class TravelRepository {
         return em.find(Travel.class, id);
     }
 
-
+    /**
+     * 랜덤 여행지 정보 가져오기
+     *
+     * @return 랜덤 여행지 리스트
+     */
+    public List<Travel> findRandom() {
+        return em.createNativeQuery("select * from travel order by rand() limit 20", Travel.class)
+                .getResultList();       //native sql
+    }
 }
