@@ -1,5 +1,6 @@
 package back.NADRIGIL.service;
 
+import back.NADRIGIL.DTO.DetailTravelDto;
 import back.NADRIGIL.DTO.RandomTravelDto;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
@@ -33,5 +34,24 @@ public class TravelService {
             result.add(travel);
         }
         return result;
+    }
+
+    public DetailTravelDto findDetailTravel(Long travelId) {
+        DetailTravelDto detailTravelDto = new DetailTravelDto();
+        Travel travel = travelRepository.findOne(travelId);
+
+        detailTravelDto.setId(travel.getId());
+        detailTravelDto.setImage(travel.getImage());
+        detailTravelDto.setName(travel.getName());
+        detailTravelDto.setLocation(travel.getLocation());
+        detailTravelDto.setAddress(travel.getAddress());
+        detailTravelDto.setLike_count(travel.getLike_count());
+        detailTravelDto.setInfo(travel.getInfo());
+        detailTravelDto.setLatitude(travel.getLatitude());
+        detailTravelDto.setLongitude(travel.getLongitude());
+        detailTravelDto.setCategory(travel.getCategory());
+        detailTravelDto.setReviews(travel.getReviews());
+
+        return detailTravelDto;
     }
 }

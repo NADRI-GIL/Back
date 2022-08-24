@@ -22,5 +22,5 @@ public class CourseOrder {
     @JoinColumn(name = "travel_id")
     private Travel travel;
 
-    private int order;
+    private int orderNo;
 }
