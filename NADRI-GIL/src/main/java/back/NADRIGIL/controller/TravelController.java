@@ -2,6 +2,7 @@ package back.NADRIGIL.controller;
 
 import back.NADRIGIL.DTO.DetailTravelDto;
 import back.NADRIGIL.DTO.RandomTravelDto;
+import back.NADRIGIL.DTO.UpdateTravelDto;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.domain.Travel;
@@ -90,6 +91,30 @@ public class TravelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
         }
 
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 여행지 수정하기
+     * @param travelId
+     * @param updateTravelDto
+     * @return
+     */
+    @PostMapping(value = "/travels/{travelId}/edit")
+    public ResponseEntity<BaseResponseBody> updateTravel(@PathVariable Long travelId, @RequestBody UpdateTravelDto updateTravelDto) {
+        BaseResponseBody responseBody = new BaseResponseBody("여행지 수정 성공");
+        try{
+            travelService.updateTravel(travelId, updateTravelDto);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
         return ResponseEntity.ok().body(responseBody);
     }
 }

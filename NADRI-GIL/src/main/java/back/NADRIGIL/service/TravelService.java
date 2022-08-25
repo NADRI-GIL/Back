@@ -2,6 +2,7 @@ package back.NADRIGIL.service;
 
 import back.NADRIGIL.DTO.DetailTravelDto;
 import back.NADRIGIL.DTO.RandomTravelDto;
+import back.NADRIGIL.DTO.UpdateTravelDto;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,20 @@ public class TravelService {
         detailTravelDto.setReviews(travel.getReviews());
 
         return detailTravelDto;
+    }
+
+    @Transactional
+    public void updateTravel(Long travelId, UpdateTravelDto updateTravelDto) {
+        Travel findTravel = travelRepository.findOne(travelId);
+
+        findTravel.setImage(updateTravelDto.getImage());
+        findTravel.setName(updateTravelDto.getName());
+        findTravel.setLocation(updateTravelDto.getLocation());
+        findTravel.setAddress(updateTravelDto.getAddress());
+        findTravel.setInfo(updateTravelDto.getInfo());
+        findTravel.setLatitude(updateTravelDto.getLatitude());
+        findTravel.setLongitude(updateTravelDto.getLongitude());
+        findTravel.setCategory(updateTravelDto.getCategory());
+
     }
 }
