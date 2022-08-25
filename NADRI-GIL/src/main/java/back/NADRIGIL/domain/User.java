@@ -2,6 +2,7 @@ package back.NADRIGIL.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ public class User extends BaseTimeEntity{
 
     private LocalDate update_date;
 
+    @ColumnDefault("0")
     private boolean is_delete;
 
     @OneToMany(mappedBy = "user")

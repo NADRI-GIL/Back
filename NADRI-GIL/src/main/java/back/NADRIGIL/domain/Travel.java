@@ -35,6 +35,9 @@ public class Travel extends BaseTimeEntity{
 
     private String category;
 
+    @ColumnDefault("0")
+    private boolean is_delete;
+
     @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)      //한번에 저장한게 cascade all 해줌
     private List<Review> reviews = new ArrayList<>();
 

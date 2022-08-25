@@ -70,4 +70,11 @@ public class TravelService {
         findTravel.setCategory(updateTravelDto.getCategory());
 
     }
+
+    @Transactional
+    public void deleteTravel(Long travelId){
+        Travel findTravel = travelRepository.findOne(travelId);
+
+        findTravel.set_delete(true);
+    }
 }

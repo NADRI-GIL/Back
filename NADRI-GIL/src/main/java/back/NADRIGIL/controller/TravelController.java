@@ -117,4 +117,22 @@ public class TravelController {
         }
         return ResponseEntity.ok().body(responseBody);
     }
+
+    @PostMapping(value = "/travels/{travelId}/delete")
+    public ResponseEntity<BaseResponseBody> deleteTravel(@PathVariable Long travelId) {
+        BaseResponseBody responseBody = new BaseResponseBody("여행지 삭제 성공");
+        try{
+            travelService.deleteTravel(travelId);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
+    }
 }
