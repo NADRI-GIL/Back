@@ -21,5 +21,5 @@ public class Heart {
     @JoinColumn(name = "travel_id")
     private Travel travel;
 
-    private Boolean is_delete;
+    private Boolean isDeleted;
 }

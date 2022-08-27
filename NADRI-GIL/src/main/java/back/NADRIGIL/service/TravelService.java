@@ -40,13 +40,12 @@ public class TravelService {
     public DetailTravelDto findDetailTravel(Long travelId) {
         DetailTravelDto detailTravelDto = new DetailTravelDto();
         Travel travel = travelRepository.findOne(travelId);
-
         detailTravelDto.setId(travel.getId());
         detailTravelDto.setImage(travel.getImage());
         detailTravelDto.setName(travel.getName());
         detailTravelDto.setLocation(travel.getLocation());
         detailTravelDto.setAddress(travel.getAddress());
-        detailTravelDto.setLike_count(travel.getLike_count());
+        detailTravelDto.setLikeCount(travel.getLikeCount());
         detailTravelDto.setInfo(travel.getInfo());
         detailTravelDto.setLatitude(travel.getLatitude());
         detailTravelDto.setLongitude(travel.getLongitude());
@@ -75,6 +74,6 @@ public class TravelService {
     public void deleteTravel(Long travelId){
         Travel findTravel = travelRepository.findOne(travelId);
 
-        findTravel.set_delete(true);
+        findTravel.setDeleted(true);
     }
 }

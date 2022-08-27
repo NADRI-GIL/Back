@@ -13,24 +13,20 @@ import java.util.List;
 @Getter @Setter
 public class User extends BaseTimeEntity{
 
-    @Id
+    @Id @GeneratedValue
     @Column(name="user_id")
     private Long id;
+
+    private String loginId;
 
     private String password;
 
     private String name;
 
-    private String nickname;
-
     private String email;
 
-    private LocalDate register_date;
-
-    private LocalDate update_date;
-
     @ColumnDefault("0")
-    private boolean is_delete;
+    private boolean isDeleted;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();

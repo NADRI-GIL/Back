@@ -20,7 +20,7 @@ public class DetailTravelDto {
 
     private String address;
 
-    private int like_count;
+    private int likeCount;
 
     private String info;
 
