@@ -1,15 +1,10 @@
-package back.NADRIGIL.DTO;
+package back.NADRIGIL.dto;
 
-import back.NADRIGIL.domain.Review;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter @Setter
-public class DetailTravelDto {
-
+public class UpdateTravelDTO {
     private Long id;
 
     private String image;
@@ -20,8 +15,6 @@ public class DetailTravelDto {
 
     private String address;
 
-    private int likeCount;
-
     private String info;
 
     private double latitude;
@@ -29,6 +22,4 @@ public class DetailTravelDto {
     private double longitude;
 
     private String category;
-
-    private List<Review> reviews = new ArrayList<>();
 }

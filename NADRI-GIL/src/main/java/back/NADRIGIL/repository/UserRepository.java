@@ -49,17 +49,4 @@ public class UserRepository {
                 .setParameter("loginId", loginID)
                 .getResultList();
     }
-
-    /**
-     * 로그인 아이디, 패스워드로 유저 조회
-     * @param loginId
-     * @param password
-     * @return User 리스트
-     */
-    public List<User> findByLoginIdAndPassword(String loginId, String password) {
-        return em.createQuery("select u from User u where u.loginId = :loginId and u.password = :password", User.class)
-                .setParameter("loginId", loginId)
-                .setParameter("password", password)
-                .getResultList();
-    }
 }

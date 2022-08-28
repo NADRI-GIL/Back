@@ -1,8 +1,8 @@
 package back.NADRIGIL.controller;
 
-import back.NADRIGIL.DTO.DetailTravelDto;
-import back.NADRIGIL.DTO.RandomTravelDto;
-import back.NADRIGIL.DTO.UpdateTravelDto;
+import back.NADRIGIL.dto.DetailTravelDTO;
+import back.NADRIGIL.dto.RandomTravelDTO;
+import back.NADRIGIL.dto.UpdateTravelDTO;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.domain.Travel;
@@ -10,10 +10,8 @@ import back.NADRIGIL.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -52,10 +50,10 @@ public class TravelController {
      * @return
      */
     @GetMapping(value = "travels/{travelId}/detail")
-    public ResponseEntity<CustomResponseBody<DetailTravelDto>> detailTravel(@PathVariable("travelId") Long travelId) {
-        CustomResponseBody<DetailTravelDto> responseBody = new CustomResponseBody<>("상세 여행지 불러오기");
+    public ResponseEntity<CustomResponseBody<DetailTravelDTO>> detailTravel(@PathVariable("travelId") Long travelId) {
+        CustomResponseBody<DetailTravelDTO> responseBody = new CustomResponseBody<>("상세 여행지 불러오기");
         try{
-            DetailTravelDto detailTravel = travelService.findDetailTravel(travelId);
+            DetailTravelDTO detailTravel = travelService.findDetailTravel(travelId);
             responseBody.getList().add(detailTravel);
         } catch (RuntimeException re){
             responseBody.setResultCode(-1);
@@ -75,10 +73,10 @@ public class TravelController {
      * 선호도 조사 랜덤 여행지 추출
      */
     @GetMapping(value = "/travels/random")
-    public ResponseEntity<CustomResponseBody<RandomTravelDto>> randomTravel() {
-        CustomResponseBody<RandomTravelDto> responseBody = new CustomResponseBody<>("랜덤 여행지 불러오기 성공");
+    public ResponseEntity<CustomResponseBody<RandomTravelDTO>> randomTravel() {
+        CustomResponseBody<RandomTravelDTO> responseBody = new CustomResponseBody<>("랜덤 여행지 불러오기 성공");
         try{
-            List<RandomTravelDto> randomTravels = travelService.findRandomTravels();
+            List<RandomTravelDTO> randomTravels = travelService.findRandomTravels();
             responseBody.setList(randomTravels);
 
         } catch (RuntimeException re){
@@ -101,7 +99,7 @@ public class TravelController {
      * @return
      */
     @PostMapping(value = "/travels/{travelId}/edit")
-    public ResponseEntity<BaseResponseBody> updateTravel(@PathVariable Long travelId, @RequestBody UpdateTravelDto updateTravelDto) {
+    public ResponseEntity<BaseResponseBody> updateTravel(@PathVariable Long travelId, @RequestBody UpdateTravelDTO updateTravelDto) {
         BaseResponseBody responseBody = new BaseResponseBody("여행지 수정 성공");
         try{
             travelService.updateTravel(travelId, updateTravelDto);

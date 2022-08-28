@@ -1,10 +1,10 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.DTO.SignUpDTO;
+import back.NADRIGIL.dto.LoginDTO;
+import back.NADRIGIL.dto.SignUpDTO;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,6 +103,24 @@ public class UserService {
             throw new IllegalStateException("비밀번호 암호화 오류입니다.");
         }
         return result;
+    }
+
+    /**
+     * 로그인
+     * @param loginDto
+     * @return 로그인 된 유저 클래스
+     */
+    public User login(LoginDTO loginDto) {
+        List<User> findUsers = userRepository.findByLoginId(loginDto.getLoginId());
+        if (findUsers.isEmpty()){
+            throw new IllegalStateException("존재하지 않는 아이디 입니다.");
+        }
+        String inputPassword = getEncryptPassword(loginDto.getPassword());
+        String findPassword = findUsers.get(0).getPassword();
+        if (!inputPassword.equals(findPassword)) {
+            throw new IllegalStateException("비밀번호가 틀렸습니다.");
+        }
+        return findUsers.get(0);
     }
 
     //회원 전체 조회

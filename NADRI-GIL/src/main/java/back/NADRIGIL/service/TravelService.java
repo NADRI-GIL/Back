@@ -1,8 +1,8 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.DTO.DetailTravelDto;
-import back.NADRIGIL.DTO.RandomTravelDto;
-import back.NADRIGIL.DTO.UpdateTravelDto;
+import back.NADRIGIL.dto.DetailTravelDTO;
+import back.NADRIGIL.dto.RandomTravelDTO;
+import back.NADRIGIL.dto.UpdateTravelDTO;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +24,11 @@ public class TravelService {
         travelRepository.save(travel);
     }
 
-    public List<RandomTravelDto> findRandomTravels() {
-        List<RandomTravelDto> result = new ArrayList<>();
+    public List<RandomTravelDTO> findRandomTravels() {
+        List<RandomTravelDTO> result = new ArrayList<>();
         List<Travel> randomTravels = travelRepository.findRandom();
         for(Travel randomTravel : randomTravels){
-            RandomTravelDto travel = new RandomTravelDto();
+            RandomTravelDTO travel = new RandomTravelDTO();
             travel.setId(randomTravel.getId());
             travel.setName(randomTravel.getName());
             travel.setImage(randomTravel.getImage());
@@ -37,8 +37,8 @@ public class TravelService {
         return result;
     }
 
-    public DetailTravelDto findDetailTravel(Long travelId) {
-        DetailTravelDto detailTravelDto = new DetailTravelDto();
+    public DetailTravelDTO findDetailTravel(Long travelId) {
+        DetailTravelDTO detailTravelDto = new DetailTravelDTO();
         Travel travel = travelRepository.findOne(travelId);
         detailTravelDto.setId(travel.getId());
         detailTravelDto.setImage(travel.getImage());
@@ -56,7 +56,7 @@ public class TravelService {
     }
 
     @Transactional
-    public void updateTravel(Long travelId, UpdateTravelDto updateTravelDto) {
+    public void updateTravel(Long travelId, UpdateTravelDTO updateTravelDto) {
         Travel findTravel = travelRepository.findOne(travelId);
 
         findTravel.setImage(updateTravelDto.getImage());

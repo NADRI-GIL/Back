@@ -1,10 +1,10 @@
-package back.NADRIGIL.DTO;
+package back.NADRIGIL.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class RandomTravelDto {
+public class RandomTravelDTO {
 
     private Long id;
     private String name;
