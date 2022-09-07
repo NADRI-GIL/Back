@@ -2,6 +2,7 @@ package back.NADRIGIL.service;
 
 import back.NADRIGIL.dto.DetailTravelDTO;
 import back.NADRIGIL.dto.RandomTravelDTO;
+import back.NADRIGIL.dto.AllTravelListDTO;
 import back.NADRIGIL.dto.UpdateTravelDTO;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
@@ -32,6 +33,20 @@ public class TravelService {
             travel.setId(randomTravel.getId());
             travel.setName(randomTravel.getName());
             travel.setImage(randomTravel.getImage());
+            result.add(travel);
+        }
+        return result;
+    }
+
+    public List<AllTravelListDTO> findAllTravels() {
+        List<AllTravelListDTO> result = new ArrayList<>();
+        List<Travel> allTravels = travelRepository.findAll();
+        for(Travel allTravel : allTravels){
+            AllTravelListDTO travel = new AllTravelListDTO();
+            travel.setId(allTravel.getId());
+            travel.setName(allTravel.getName());
+            travel.setLocation(allTravel.getLocation());
+            travel.setImage(allTravel.getImage());
             result.add(travel);
         }
         return result;

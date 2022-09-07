@@ -2,6 +2,7 @@ package back.NADRIGIL.controller;
 
 import back.NADRIGIL.dto.DetailTravelDTO;
 import back.NADRIGIL.dto.RandomTravelDTO;
+import back.NADRIGIL.dto.AllTravelListDTO;
 import back.NADRIGIL.dto.UpdateTravelDTO;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
@@ -78,6 +79,30 @@ public class TravelController {
         try{
             List<RandomTravelDTO> randomTravels = travelService.findRandomTravels();
             responseBody.setList(randomTravels);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 모든 여행지 리스트 불러오기
+     * @return
+     */
+    @GetMapping(value = "/travels/all")
+    public ResponseEntity<CustomResponseBody<AllTravelListDTO>> allTravel() {
+        CustomResponseBody<AllTravelListDTO> responseBody = new CustomResponseBody<>("모든 여행지 리스트 불러오기 성공");
+        try{
+            List<AllTravelListDTO> allTravels = travelService.findAllTravels();
+            responseBody.setList(allTravels);
 
         } catch (RuntimeException re){
             responseBody.setResultCode(-1);

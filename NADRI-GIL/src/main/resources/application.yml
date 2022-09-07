@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mariadb://43.200.49.4:3306/nadri_gil
-    username: ec2-user
-    password: 0109
+    url: jdbc:mariadb://localhost:3306/nadri_gil
+    username: root
+    password: 000119
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:

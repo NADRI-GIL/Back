@@ -39,4 +39,13 @@ public class TravelRepository {
         return em.createNativeQuery("select * from travel order by rand() limit 20", Travel.class)
                 .getResultList();       //native sql
     }
+
+    /**
+     * 모든 여행지 정보 가져오기
+     * @return 모든 여행지 리스트
+     */
+    public List<Travel> findAll() {
+        return em.createQuery("select t from Travel t", Travel.class)
+                .getResultList();
+    }
 }
