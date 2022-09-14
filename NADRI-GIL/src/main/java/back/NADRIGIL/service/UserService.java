@@ -123,23 +123,23 @@ public class UserService {
         return findUsers.get(0);
     }
 
-    //회원 전체 조회
-    public List<User> findUsers() {
-        return userRepository.findAll();
-    }
-
-    //단건 조회
-    public User findOne(String userId) {
-        return userRepository.findOne(userId);
-    }
-
-    //비밀번호 찾기
-    public String findPassword(String userId) {
-        User user = userRepository.findOne(userId);
-        if (user==null) {
-            throw new IllegalStateException("해당 아이디는 존재하지 않습니다.");
-        }
-
-        return user.getPassword();
-    }
+//    //회원 전체 조회
+//    public List<User> findUsers() {
+//        return userRepository.findAll();
+//    }
+//
+//    //단건 조회
+//    public User findOne(String userId) {
+//        return userRepository.findOne(userId);
+//    }
+//
+//    //비밀번호 찾기
+//    public String findPassword(String userId) {
+//        User user = userRepository.findOne(userId);
+//        if (user==null) {
+//            throw new IllegalStateException("해당 아이디는 존재하지 않습니다.");
+//        }
+//
+//        return user.getPassword();
+//    }
 }

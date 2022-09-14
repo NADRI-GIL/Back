@@ -26,7 +26,7 @@ public class UserRepository {
      * @param id
      * @return User 클래스
      */
-    public User findOne(String id) {
+    public User findOne(Long id) {
         return em.find(User.class, id);
     }
 
