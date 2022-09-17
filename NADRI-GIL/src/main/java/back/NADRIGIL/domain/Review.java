@@ -6,10 +6,13 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(
+        name = "REVIEW_SEQ_GENERATOR",
+        initialValue = 1, allocationSize = 1)
 @Getter @Setter
 public class Review {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="REVIEW_SEQ_GENERATOR")
     @Column(name = "review_id")
     private Long id;
 

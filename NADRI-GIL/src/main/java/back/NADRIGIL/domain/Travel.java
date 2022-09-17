@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@SequenceGenerator(
+        name = "TRAVEL_SEQ_GENERATOR",
+        initialValue = 1, allocationSize = 1)
 @Getter @Setter
 public class Travel extends BaseTimeEntity{
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TRAVEL_SEQ_GENERATOR")
     @Column(name = "travel_id")
     private Long id;
 
@@ -27,6 +30,7 @@ public class Travel extends BaseTimeEntity{
     @ColumnDefault("0")
     private int likeCount;
 
+    @Column(length = 5000)
     private String info;
 
     private double latitude;

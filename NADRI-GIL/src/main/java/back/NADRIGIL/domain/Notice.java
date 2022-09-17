@@ -8,10 +8,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@SequenceGenerator(
+        name = "NOTICE_SEQ_GENERATOR",
+        initialValue = 1, allocationSize = 1)
 @Getter @Setter
 public class Notice {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="NOTICE_SEQ_GENERATOR")
     @Column(name = "notice_id")
     private Long id;
 

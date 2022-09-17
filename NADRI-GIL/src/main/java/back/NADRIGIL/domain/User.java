@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@SequenceGenerator(
+        name = "USER_SEQ_GENERATOR",
+        initialValue = 1, allocationSize = 1)
 @Getter @Setter
 public class User extends BaseTimeEntity{
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER_SEQ_GENERATOR")
     @Column(name="user_id")
     private Long id;
 

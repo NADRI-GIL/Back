@@ -6,10 +6,13 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(
+        name = "HEART_SEQ_GENERATOR",
+        initialValue = 1, allocationSize = 1)
 @Setter @Getter
 public class Heart {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HEART_SEQ_GENERATOR")
     @Column(name = "heart_id")
     private Long id;
 
