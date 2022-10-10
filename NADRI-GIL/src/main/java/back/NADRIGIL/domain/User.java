@@ -31,6 +31,8 @@ public class User extends BaseTimeEntity{
     @ColumnDefault("0")
     private boolean isDeleted;
 
+    private String nickname;
+
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
 

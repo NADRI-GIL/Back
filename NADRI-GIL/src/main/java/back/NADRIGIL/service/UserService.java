@@ -38,6 +38,10 @@ public class UserService {
         if (signUpDTO.getName().isBlank()) {
             throw new IllegalStateException("이름을 입력해주세요.");
         }
+        if (signUpDTO.getNickname().isBlank()) {
+            throw new IllegalStateException("닉네임을 입력해주세요.");
+        }
+        validateDuplicateNickname(signUpDTO.getNickname());  //중복 닉네임 검증
         if (!isValidEmailAddress(signUpDTO.getEmail())) {
             throw new IllegalStateException("이메일 형식이 유효하지 않습니다.");
         }
@@ -46,6 +50,7 @@ public class UserService {
         user.setPassword(getEncryptPassword(signUpDTO.getPassword()));
         user.setName(signUpDTO.getName());
         user.setEmail(signUpDTO.getEmail());
+        user.setNickname(signUpDTO.getNickname());
 
         userRepository.save(user);
     }
@@ -58,6 +63,17 @@ public class UserService {
         List<User> findUsers = userRepository.findByLoginId(loginId);
         if (!findUsers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+    }
+
+    /**
+     * 닉네임 중복검사
+     * @param nickname
+     */
+    public void validateDuplicateNickname(String nickname) {
+        List<User> findUsers = userRepository.findByNickname(nickname);
+        if (!findUsers.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
         }
     }
 

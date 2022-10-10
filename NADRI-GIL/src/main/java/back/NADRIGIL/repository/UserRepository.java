@@ -49,4 +49,15 @@ public class UserRepository {
                 .setParameter("loginId", loginID)
                 .getResultList();
     }
+
+    /**
+     * 닉네임으로 유저 조회
+     * @param nickname
+     * @return User 리스트
+     */
+    public List<User> findByNickname(String nickname) {
+        return em.createQuery("select u from User u where u.nickname = :nickname", User.class)
+                .setParameter("nickname", nickname)
+                .getResultList();
+    }
 }

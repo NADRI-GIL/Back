@@ -63,6 +63,29 @@ public class UserController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    @GetMapping("/users/nickname")
+    public ResponseEntity<BaseResponseBody> validateDuplicateNickname(@RequestParam(value = "nickname") String nickname) {
+        BaseResponseBody responseBody = new BaseResponseBody("사용가능한 닉네임입니다.");
+        try{
+            userService.validateDuplicateNickname(nickname);
+        } catch (IllegalStateException e){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.ok().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 로그인
+     * @param loginDto
+     * @param request
+     * @return
+     */
     @PostMapping("/users/login")
     public ResponseEntity<BaseResponseBody> login(@RequestBody LoginDTO loginDto, HttpServletRequest request) {
         BaseResponseBody responseBody = new BaseResponseBody("로그인 성공");
@@ -72,7 +95,7 @@ public class UserController {
                 throw new IllegalStateException("로그인 실패");
             }
             HttpSession session = request.getSession();
-            UserInfoVO userInfo = new UserInfoVO(loginUser.getId(), loginUser.getLoginId(), loginUser.getName());
+            UserInfoVO userInfo = new UserInfoVO(loginUser.getId(), loginUser.getLoginId(), loginUser.getName(), loginUser.getNickname());
             session.setAttribute("userInfo",userInfo);
 
         } catch (IllegalStateException e){

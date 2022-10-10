@@ -37,7 +37,7 @@ public class Travel extends BaseTimeEntity{
 
     private double longitude;
 
-    private String category;
+//    private String category;
 
     @ColumnDefault("0")
     private boolean isDeleted;

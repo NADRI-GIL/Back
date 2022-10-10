@@ -64,7 +64,7 @@ public class TravelService {
         detailTravelDto.setInfo(travel.getInfo());
         detailTravelDto.setLatitude(travel.getLatitude());
         detailTravelDto.setLongitude(travel.getLongitude());
-        detailTravelDto.setCategory(travel.getCategory());
+//        detailTravelDto.setCategory(travel.getCategory());
         detailTravelDto.setReviews(travel.getReviews());
 
         return detailTravelDto;
@@ -81,7 +81,7 @@ public class TravelService {
         findTravel.setInfo(updateTravelDto.getInfo());
         findTravel.setLatitude(updateTravelDto.getLatitude());
         findTravel.setLongitude(updateTravelDto.getLongitude());
-        findTravel.setCategory(updateTravelDto.getCategory());
+//        findTravel.setCategory(updateTravelDto.getCategory());
 
     }
 
