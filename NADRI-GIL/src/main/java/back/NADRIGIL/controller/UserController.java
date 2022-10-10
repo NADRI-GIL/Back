@@ -63,6 +63,11 @@ public class UserController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    /**
+     * 닉네임 중복 검사
+     * @param nickname
+     * @return
+     */
     @GetMapping("/users/nickname")
     public ResponseEntity<BaseResponseBody> validateDuplicateNickname(@RequestParam(value = "nickname") String nickname) {
         BaseResponseBody responseBody = new BaseResponseBody("사용가능한 닉네임입니다.");

@@ -21,5 +21,5 @@ public class UpdateTravelDTO {
 
     private double longitude;
 
-    private String category;
+//    private String category;
 }
