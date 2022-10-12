@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -92,7 +94,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/users/login")
-    public ResponseEntity<BaseResponseBody> login(@RequestBody LoginDTO loginDto, HttpServletRequest request) {
+    public ResponseEntity<BaseResponseBody> login(@RequestBody LoginDTO loginDto, HttpServletRequest request, HttpServletResponse response) {
         BaseResponseBody responseBody = new BaseResponseBody("로그인 성공");
         try{
             User loginUser = userService.login(loginDto);
@@ -102,6 +104,11 @@ public class UserController {
             HttpSession session = request.getSession();
             UserInfoVO userInfo = new UserInfoVO(loginUser.getId(), loginUser.getLoginId(), loginUser.getName(), loginUser.getNickname());
             session.setAttribute("userInfo",userInfo);
+
+            Cookie idCookie = new Cookie("userId", String.valueOf(userInfo.getLoginId()));
+            idCookie.setHttpOnly(false);
+            idCookie.setPath("/");
+            response.addCookie(idCookie);
 
         } catch (IllegalStateException e){
             responseBody.setResultCode(-1);

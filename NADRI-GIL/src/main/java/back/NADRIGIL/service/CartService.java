@@ -28,13 +28,17 @@ public class CartService {
     @Transactional
     public void addCart(CartInfoDTO cartInfoDTO) {
 
-        User user = userRepository.findOne(cartInfoDTO.getUserId());
+        List<User> user = userRepository.findByLoginId(cartInfoDTO.getLoginId());
+        if (user.isEmpty()) {
+            throw new IllegalStateException("로그인이 필요한 기능입니다.");
+        }
+        cartInfoDTO.setUserId(user.get(0).getId());
         Travel travel = travelRepository.findOne(cartInfoDTO.getTravelId());
 
         validateDuplicateCart(cartInfoDTO.getUserId(), cartInfoDTO.getTravelId());  // 장바구니 중복 검증
 
         Cart cart = new Cart();
-        cart.setUser(user);
+        cart.setUser(user.get(0));
         cart.setTravel(travel);
         cartRepository.add(cart);
     }
@@ -46,9 +50,13 @@ public class CartService {
         }
     }
 
-    public List<MyCartListDTO> findMyCartList(Long userId) {
+    public List<MyCartListDTO> findMyCartList(String loginId) {
         List<MyCartListDTO> result = new ArrayList<>();
-        List<Cart> myCarts = cartRepository.findMyCartList(userId);
+        List<User> user = userRepository.findByLoginId(loginId);
+        if (user.isEmpty()) {
+            throw new IllegalStateException("로그인이 필요한 기능입니다.");
+        }
+        List<Cart> myCarts = cartRepository.findMyCartList(user.get(0).getId());
         for(Cart myCart : myCarts){
             MyCartListDTO travel = new MyCartListDTO();
             travel.setTravelId(myCart.getTravel().getId());

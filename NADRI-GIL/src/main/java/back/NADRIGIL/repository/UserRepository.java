@@ -41,12 +41,12 @@ public class UserRepository {
 
     /**
      * 로그인 아이디로 유저 조회
-     * @param loginID
+     * @param loginId
      * @return User 리스트
      */
-    public List<User> findByLoginId(String loginID) {
+    public List<User> findByLoginId(String loginId) {
         return em.createQuery("select u from User u where u.loginId = :loginId", User.class)
-                .setParameter("loginId", loginID)
+                .setParameter("loginId", loginId)
                 .getResultList();
     }
 
