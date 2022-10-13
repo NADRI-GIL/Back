@@ -24,7 +24,7 @@ public class Course {
 
     private String name;
 
-    private String theme;
+//    private String theme;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)      // cascade all
     private List<CourseOrder> courseOrders = new ArrayList<>();
