@@ -2,7 +2,8 @@ package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
-import back.NADRIGIL.dto.*;
+import back.NADRIGIL.dto.cart.CartAddDTO;
+import back.NADRIGIL.dto.cart.MyCartListDTO;
 import back.NADRIGIL.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,10 +28,7 @@ public class CartController {
     public ResponseEntity<BaseResponseBody> addCart(@RequestBody CartAddDTO cartAddDTO){
         BaseResponseBody responseBody = new BaseResponseBody("장바구니 담기 성공");
         try{
-            CartInfoDTO cartInfoDTO = new CartInfoDTO();
-            cartInfoDTO.setLoginId(cartAddDTO.getLoginId());
-            cartInfoDTO.setTravelId(cartAddDTO.getTravelId());
-            cartService.addCart(cartInfoDTO);
+            cartService.addCart(cartAddDTO);
         } catch (IllegalStateException e){
             responseBody.setResultCode(-1);
             responseBody.setResultMsg(e.getMessage());

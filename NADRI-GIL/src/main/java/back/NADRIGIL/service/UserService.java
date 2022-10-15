@@ -1,7 +1,7 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.dto.LoginDTO;
-import back.NADRIGIL.dto.SignUpDTO;
+import back.NADRIGIL.dto.user.LoginDTO;
+import back.NADRIGIL.dto.user.SignUpDTO;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.BaseResponseBody;
-import back.NADRIGIL.dto.CourseAddDTO;
+import back.NADRIGIL.dto.course.CourseAddDTO;
 import back.NADRIGIL.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

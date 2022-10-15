@@ -1,9 +1,9 @@
 package back.NADRIGIL.controller;
 
-import back.NADRIGIL.dto.DetailTravelDTO;
-import back.NADRIGIL.dto.RandomTravelDTO;
-import back.NADRIGIL.dto.AllTravelListDTO;
-import back.NADRIGIL.dto.UpdateTravelDTO;
+import back.NADRIGIL.dto.travel.DetailTravelDTO;
+import back.NADRIGIL.dto.travel.RandomTravelDTO;
+import back.NADRIGIL.dto.travel.AllTravelListDTO;
+import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.domain.Travel;

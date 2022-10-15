@@ -23,14 +23,14 @@ public class CartRepository {
     }
 
     /**
-     * 해당 userId, travelId와 같은 장바구니 반환
-     * @param userId
+     * 해당 loginId, travelId와 같은 장바구니 반환
+     * @param loginId
      * @param travelId
      * @return
      */
-    public List<Cart> findOne(Long userId, Long travelId) {
-        return em.createQuery("select c from Cart c where c.user.id = :userId and c.travel.id = :travelId", Cart.class)
-                .setParameter("userId", userId)
+    public List<Cart> findCart(String loginId, Long travelId) {
+        return em.createQuery("select c from Cart c where c.user.loginId = :loginId and c.travel.id = :travelId", Cart.class)
+                .setParameter("loginId", loginId)
                 .setParameter("travelId", travelId)
                 .getResultList();
     }

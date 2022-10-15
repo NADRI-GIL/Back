@@ -1,13 +1,11 @@
-package back.NADRIGIL.dto;
+package back.NADRIGIL.dto.cart;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CartInfoDTO {
+public class CartAddDTO {
 
-    private Long id;
-    private Long userId;
     private String loginId;
     private Long travelId;
 }

@@ -3,9 +3,8 @@ package back.NADRIGIL.service;
 import back.NADRIGIL.domain.Cart;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.domain.User;
-import back.NADRIGIL.dto.AllTravelListDTO;
-import back.NADRIGIL.dto.CartInfoDTO;
-import back.NADRIGIL.dto.MyCartListDTO;
+import back.NADRIGIL.dto.cart.CartAddDTO;
+import back.NADRIGIL.dto.cart.MyCartListDTO;
 import back.NADRIGIL.repository.CartRepository;
 import back.NADRIGIL.repository.TravelRepository;
 import back.NADRIGIL.repository.UserRepository;
@@ -26,16 +25,15 @@ public class CartService {
     private final TravelRepository travelRepository;
 
     @Transactional
-    public void addCart(CartInfoDTO cartInfoDTO) {
+    public void addCart(CartAddDTO cartAddDTO) {
 
-        List<User> user = userRepository.findByLoginId(cartInfoDTO.getLoginId());
+        List<User> user = userRepository.findByLoginId(cartAddDTO.getLoginId());
         if (user.isEmpty()) {
             throw new IllegalStateException("로그인이 필요한 기능입니다.");
         }
-        cartInfoDTO.setUserId(user.get(0).getId());
-        Travel travel = travelRepository.findOne(cartInfoDTO.getTravelId());
+        Travel travel = travelRepository.findOne(cartAddDTO.getTravelId());
 
-        validateDuplicateCart(cartInfoDTO.getUserId(), cartInfoDTO.getTravelId());  // 장바구니 중복 검증
+        validateDuplicateCart(cartAddDTO.getLoginId(), cartAddDTO.getTravelId());  // 장바구니 중복 검증
 
         Cart cart = new Cart();
         cart.setUser(user.get(0));
@@ -43,8 +41,8 @@ public class CartService {
         cartRepository.add(cart);
     }
 
-    public void validateDuplicateCart(Long userId, Long travelId ) {
-        List<Cart> findCarts = cartRepository.findOne(userId, travelId);
+    public void validateDuplicateCart(String loginId, Long travelId ) {
+        List<Cart> findCarts = cartRepository.findCart(loginId, travelId);
         if (!findCarts.isEmpty()) {
             throw new IllegalStateException("이미 담은 여행지 입니다.");
         }

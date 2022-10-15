@@ -1,4 +1,4 @@
-package back.NADRIGIL.dto;
+package back.NADRIGIL.dto.travel;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.User;
-import back.NADRIGIL.dto.LoginDTO;
-import back.NADRIGIL.dto.SignUpDTO;
+import back.NADRIGIL.dto.user.LoginDTO;
+import back.NADRIGIL.dto.user.SignUpDTO;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.service.UserService;
 import back.NADRIGIL.vo.UserInfoVO;

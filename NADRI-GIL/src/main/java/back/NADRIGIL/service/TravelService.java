@@ -1,9 +1,9 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.dto.DetailTravelDTO;
-import back.NADRIGIL.dto.RandomTravelDTO;
-import back.NADRIGIL.dto.AllTravelListDTO;
-import back.NADRIGIL.dto.UpdateTravelDTO;
+import back.NADRIGIL.dto.travel.DetailTravelDTO;
+import back.NADRIGIL.dto.travel.RandomTravelDTO;
+import back.NADRIGIL.dto.travel.AllTravelListDTO;
+import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
 import lombok.RequiredArgsConstructor;
