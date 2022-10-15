@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class RandomTravelDTO {
+public class GetRandomTravelDTO {
 
     private Long id;
     private String name;

@@ -1,12 +1,12 @@
-package back.NADRIGIL.dto.cart;
+package back.NADRIGIL.dto.travel;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class MyCartListDTO {
+public class GetAllTravelListDTO {
 
-    private Long travelId;
+    private Long id;
     private String name;
     private String location;
     private String image;

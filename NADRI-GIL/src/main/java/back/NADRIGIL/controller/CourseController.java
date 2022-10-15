@@ -1,7 +1,7 @@
 package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.BaseResponseBody;
-import back.NADRIGIL.dto.course.CourseAddDTO;
+import back.NADRIGIL.dto.course.AddCourseDTO;
 import back.NADRIGIL.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/courses/add")
-    public ResponseEntity<BaseResponseBody> addCourse(@RequestBody CourseAddDTO courseAddDTO) {
+    public ResponseEntity<BaseResponseBody> addCourse(@RequestBody AddCourseDTO addCourseDTO) {
         BaseResponseBody responseBody = new BaseResponseBody("코스 저장하기 성공");
         try {
-            courseService.addCourse(courseAddDTO);
+            courseService.addCourse(addCourseDTO);
 
         } catch (IllegalStateException e){
             responseBody.setResultCode(-1);

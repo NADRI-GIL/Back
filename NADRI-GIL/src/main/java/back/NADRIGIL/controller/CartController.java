@@ -2,8 +2,8 @@ package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
-import back.NADRIGIL.dto.cart.CartAddDTO;
-import back.NADRIGIL.dto.cart.MyCartListDTO;
+import back.NADRIGIL.dto.cart.AddCartDTO;
+import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,14 +21,14 @@ public class CartController {
 
     /**
      * 장바구니 추가
-     * @param cartAddDTO
+     * @param addCartDTO
      * @return
      */
     @PostMapping("/carts/add")
-    public ResponseEntity<BaseResponseBody> addCart(@RequestBody CartAddDTO cartAddDTO){
+    public ResponseEntity<BaseResponseBody> addCart(@RequestBody AddCartDTO addCartDTO){
         BaseResponseBody responseBody = new BaseResponseBody("장바구니 담기 성공");
         try{
-            cartService.addCart(cartAddDTO);
+            cartService.addCart(addCartDTO);
         } catch (IllegalStateException e){
             responseBody.setResultCode(-1);
             responseBody.setResultMsg(e.getMessage());
@@ -47,10 +47,10 @@ public class CartController {
      * @return
      */
     @PostMapping("/carts/myList")
-    public ResponseEntity<CustomResponseBody<MyCartListDTO>> MyCartList(@RequestBody Map<String, String> loginIdMap) {
-        CustomResponseBody<MyCartListDTO> responseBody = new CustomResponseBody<>("내 장바구니 리스트 불러오기 성공");
+    public ResponseEntity<CustomResponseBody<GetMyCartListDTO>> MyCartList(@RequestBody Map<String, String> loginIdMap) {
+        CustomResponseBody<GetMyCartListDTO> responseBody = new CustomResponseBody<>("내 장바구니 리스트 불러오기 성공");
         try {
-            List<MyCartListDTO> myCarts = cartService.findMyCartList(loginIdMap.get("loginId"));
+            List<GetMyCartListDTO> myCarts = cartService.findMyCartList(loginIdMap.get("loginId"));
             responseBody.setList(myCarts);
 
         } catch (RuntimeException re){

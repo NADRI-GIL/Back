@@ -3,8 +3,8 @@ package back.NADRIGIL.service;
 import back.NADRIGIL.domain.Cart;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.domain.User;
-import back.NADRIGIL.dto.cart.CartAddDTO;
-import back.NADRIGIL.dto.cart.MyCartListDTO;
+import back.NADRIGIL.dto.cart.AddCartDTO;
+import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.repository.CartRepository;
 import back.NADRIGIL.repository.TravelRepository;
 import back.NADRIGIL.repository.UserRepository;
@@ -25,15 +25,15 @@ public class CartService {
     private final TravelRepository travelRepository;
 
     @Transactional
-    public void addCart(CartAddDTO cartAddDTO) {
+    public void addCart(AddCartDTO addCartDTO) {
 
-        List<User> user = userRepository.findByLoginId(cartAddDTO.getLoginId());
+        List<User> user = userRepository.findByLoginId(addCartDTO.getLoginId());
         if (user.isEmpty()) {
             throw new IllegalStateException("로그인이 필요한 기능입니다.");
         }
-        Travel travel = travelRepository.findOne(cartAddDTO.getTravelId());
+        Travel travel = travelRepository.findOne(addCartDTO.getTravelId());
 
-        validateDuplicateCart(cartAddDTO.getLoginId(), cartAddDTO.getTravelId());  // 장바구니 중복 검증
+        validateDuplicateCart(addCartDTO.getLoginId(), addCartDTO.getTravelId());  // 장바구니 중복 검증
 
         Cart cart = new Cart();
         cart.setUser(user.get(0));
@@ -48,15 +48,15 @@ public class CartService {
         }
     }
 
-    public List<MyCartListDTO> findMyCartList(String loginId) {
-        List<MyCartListDTO> result = new ArrayList<>();
+    public List<GetMyCartListDTO> findMyCartList(String loginId) {
+        List<GetMyCartListDTO> result = new ArrayList<>();
         List<User> user = userRepository.findByLoginId(loginId);
         if (user.isEmpty()) {
             throw new IllegalStateException("로그인이 필요한 기능입니다.");
         }
         List<Cart> myCarts = cartRepository.findMyCartList(user.get(0).getId());
         for(Cart myCart : myCarts){
-            MyCartListDTO travel = new MyCartListDTO();
+            GetMyCartListDTO travel = new GetMyCartListDTO();
             travel.setTravelId(myCart.getTravel().getId());
             travel.setName(myCart.getTravel().getName());
             travel.setLocation(myCart.getTravel().getLocation());

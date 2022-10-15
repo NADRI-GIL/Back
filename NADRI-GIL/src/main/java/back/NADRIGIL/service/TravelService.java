@@ -1,8 +1,8 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.dto.travel.DetailTravelDTO;
-import back.NADRIGIL.dto.travel.RandomTravelDTO;
-import back.NADRIGIL.dto.travel.AllTravelListDTO;
+import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.dto.travel.GetRandomTravelDTO;
+import back.NADRIGIL.dto.travel.GetAllTravelListDTO;
 import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
@@ -25,11 +25,11 @@ public class TravelService {
         travelRepository.save(travel);
     }
 
-    public List<RandomTravelDTO> findRandomTravels() {
-        List<RandomTravelDTO> result = new ArrayList<>();
+    public List<GetRandomTravelDTO> findRandomTravels() {
+        List<GetRandomTravelDTO> result = new ArrayList<>();
         List<Travel> randomTravels = travelRepository.findRandom();
         for(Travel randomTravel : randomTravels){
-            RandomTravelDTO travel = new RandomTravelDTO();
+            GetRandomTravelDTO travel = new GetRandomTravelDTO();
             travel.setId(randomTravel.getId());
             travel.setName(randomTravel.getName());
             travel.setImage(randomTravel.getImage());
@@ -38,11 +38,11 @@ public class TravelService {
         return result;
     }
 
-    public List<AllTravelListDTO> findAllTravels() {
-        List<AllTravelListDTO> result = new ArrayList<>();
+    public List<GetAllTravelListDTO> findAllTravels() {
+        List<GetAllTravelListDTO> result = new ArrayList<>();
         List<Travel> allTravels = travelRepository.findAll();
         for(Travel allTravel : allTravels){
-            AllTravelListDTO travel = new AllTravelListDTO();
+            GetAllTravelListDTO travel = new GetAllTravelListDTO();
             travel.setId(allTravel.getId());
             travel.setName(allTravel.getName());
             travel.setLocation(allTravel.getLocation());
@@ -52,22 +52,22 @@ public class TravelService {
         return result;
     }
 
-    public DetailTravelDTO findDetailTravel(Long travelId) {
-        DetailTravelDTO detailTravelDto = new DetailTravelDTO();
+    public GetTravelDetailDTO findDetailTravel(Long travelId) {
+        GetTravelDetailDTO getTravelDetailDto = new GetTravelDetailDTO();
         Travel travel = travelRepository.findOne(travelId);
-        detailTravelDto.setId(travel.getId());
-        detailTravelDto.setImage(travel.getImage());
-        detailTravelDto.setName(travel.getName());
-        detailTravelDto.setLocation(travel.getLocation());
-        detailTravelDto.setAddress(travel.getAddress());
-        detailTravelDto.setLikeCount(travel.getLikeCount());
-        detailTravelDto.setInfo(travel.getInfo());
-        detailTravelDto.setLatitude(travel.getLatitude());
-        detailTravelDto.setLongitude(travel.getLongitude());
+        getTravelDetailDto.setId(travel.getId());
+        getTravelDetailDto.setImage(travel.getImage());
+        getTravelDetailDto.setName(travel.getName());
+        getTravelDetailDto.setLocation(travel.getLocation());
+        getTravelDetailDto.setAddress(travel.getAddress());
+        getTravelDetailDto.setLikeCount(travel.getLikeCount());
+        getTravelDetailDto.setInfo(travel.getInfo());
+        getTravelDetailDto.setLatitude(travel.getLatitude());
+        getTravelDetailDto.setLongitude(travel.getLongitude());
 //        detailTravelDto.setCategory(travel.getCategory());
-        detailTravelDto.setReviews(travel.getReviews());
+        getTravelDetailDto.setReviews(travel.getReviews());
 
-        return detailTravelDto;
+        return getTravelDetailDto;
     }
 
     @Transactional

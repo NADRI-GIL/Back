@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class DetailTravelDTO {
+public class GetTravelDetailDTO {
 
     private Long id;
 

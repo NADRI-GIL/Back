@@ -1,11 +1,11 @@
-package back.NADRIGIL.dto.cart;
+package back.NADRIGIL.dto.course;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CartAddDTO {
+public class AddCourseOrderDTO {
 
-    private String loginId;
     private Long travelId;
+    private int orderNo;
 }

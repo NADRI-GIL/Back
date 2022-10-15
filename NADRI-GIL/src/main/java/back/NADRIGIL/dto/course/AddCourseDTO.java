@@ -6,9 +6,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class CourseAddDTO {
+public class AddCourseDTO {
 
     private String loginId;
     private String name;
-    private List<CourseOrderDTO> courseOrders;
+    private List<AddCourseOrderDTO> courseOrders;
 }
