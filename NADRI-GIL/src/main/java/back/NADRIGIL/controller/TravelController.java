@@ -27,7 +27,7 @@ public class TravelController {
      * @return
      */
     @PostMapping("/travels/new")
-    public ResponseEntity<BaseResponseBody> saveTravel(@RequestBody Travel travel) {
+    public ResponseEntity<BaseResponseBody> addTravel(@RequestBody Travel travel) {
         BaseResponseBody responseBody = new BaseResponseBody("여행지 저장 성공");
         try{
             travelService.saveTravel(travel);
@@ -51,7 +51,7 @@ public class TravelController {
      * @return
      */
     @GetMapping(value = "travels/{travelId}/detail")
-    public ResponseEntity<CustomResponseBody<GetTravelDetailDTO>> detailTravel(@PathVariable("travelId") Long travelId) {
+    public ResponseEntity<CustomResponseBody<GetTravelDetailDTO>> getTravelDetail(@PathVariable("travelId") Long travelId) {
         CustomResponseBody<GetTravelDetailDTO> responseBody = new CustomResponseBody<>("상세 여행지 불러오기");
         try{
             GetTravelDetailDTO detailTravel = travelService.getTravelDetail(travelId);
@@ -74,7 +74,7 @@ public class TravelController {
      * 선호도 조사 랜덤 여행지 추출
      */
     @GetMapping(value = "/travels/random")
-    public ResponseEntity<CustomResponseBody<GetRandomTravelDTO>> randomTravel() {
+    public ResponseEntity<CustomResponseBody<GetRandomTravelDTO>> getRandomTravels() {
         CustomResponseBody<GetRandomTravelDTO> responseBody = new CustomResponseBody<>("랜덤 여행지 불러오기 성공");
         try{
             List<GetRandomTravelDTO> randomTravels = travelService.getRandomTravels();
@@ -98,7 +98,7 @@ public class TravelController {
      * @return
      */
     @GetMapping(value = "/travels/all")
-    public ResponseEntity<CustomResponseBody<GetAllTravelListDTO>> allTravel() {
+    public ResponseEntity<CustomResponseBody<GetAllTravelListDTO>> getAllTravels() {
         CustomResponseBody<GetAllTravelListDTO> responseBody = new CustomResponseBody<>("모든 여행지 리스트 불러오기 성공");
         try{
             List<GetAllTravelListDTO> allTravels = travelService.getAllTravels();

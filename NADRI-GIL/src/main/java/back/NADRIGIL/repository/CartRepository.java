@@ -40,7 +40,7 @@ public class CartRepository {
      * @param userId
      * @return
      */
-    public List<Cart> getMyCartList(Long userId) {
+    public List<Cart> findMyCartList(Long userId) {
         return em.createQuery("select c from Cart c where c.user.id = :userId", Cart.class)
                 .setParameter("userId", userId)
                 .getResultList();
