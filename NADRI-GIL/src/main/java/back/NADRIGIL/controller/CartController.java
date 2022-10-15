@@ -50,7 +50,7 @@ public class CartController {
     public ResponseEntity<CustomResponseBody<GetMyCartListDTO>> MyCartList(@RequestBody Map<String, String> loginIdMap) {
         CustomResponseBody<GetMyCartListDTO> responseBody = new CustomResponseBody<>("내 장바구니 리스트 불러오기 성공");
         try {
-            List<GetMyCartListDTO> myCarts = cartService.findMyCartList(loginIdMap.get("loginId"));
+            List<GetMyCartListDTO> myCarts = cartService.getMyCartList(loginIdMap.get("loginId"));
             responseBody.setList(myCarts);
 
         } catch (RuntimeException re){

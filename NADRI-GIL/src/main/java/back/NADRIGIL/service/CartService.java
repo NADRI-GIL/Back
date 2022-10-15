@@ -48,15 +48,16 @@ public class CartService {
         }
     }
 
-    public List<GetMyCartListDTO> findMyCartList(String loginId) {
+    public List<GetMyCartListDTO> getMyCartList(String loginId) {
         List<GetMyCartListDTO> result = new ArrayList<>();
         List<User> user = userRepository.findByLoginId(loginId);
         if (user.isEmpty()) {
             throw new IllegalStateException("로그인이 필요한 기능입니다.");
         }
-        List<Cart> myCarts = cartRepository.findMyCartList(user.get(0).getId());
+        List<Cart> myCarts = cartRepository.getMyCartList(user.get(0).getId());
         for(Cart myCart : myCarts){
             GetMyCartListDTO travel = new GetMyCartListDTO();
+            travel.setId(myCart.getId());
             travel.setTravelId(myCart.getTravel().getId());
             travel.setName(myCart.getTravel().getName());
             travel.setLocation(myCart.getTravel().getLocation());

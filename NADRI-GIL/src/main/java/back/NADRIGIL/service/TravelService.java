@@ -25,7 +25,7 @@ public class TravelService {
         travelRepository.save(travel);
     }
 
-    public List<GetRandomTravelDTO> findRandomTravels() {
+    public List<GetRandomTravelDTO> getRandomTravels() {
         List<GetRandomTravelDTO> result = new ArrayList<>();
         List<Travel> randomTravels = travelRepository.findRandom();
         for(Travel randomTravel : randomTravels){
@@ -38,7 +38,7 @@ public class TravelService {
         return result;
     }
 
-    public List<GetAllTravelListDTO> findAllTravels() {
+    public List<GetAllTravelListDTO> getAllTravels() {
         List<GetAllTravelListDTO> result = new ArrayList<>();
         List<Travel> allTravels = travelRepository.findAll();
         for(Travel allTravel : allTravels){
@@ -52,7 +52,7 @@ public class TravelService {
         return result;
     }
 
-    public GetTravelDetailDTO findDetailTravel(Long travelId) {
+    public GetTravelDetailDTO getTravelDetail(Long travelId) {
         GetTravelDetailDTO getTravelDetailDto = new GetTravelDetailDTO();
         Travel travel = travelRepository.findOne(travelId);
         getTravelDetailDto.setId(travel.getId());

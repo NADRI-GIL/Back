@@ -54,7 +54,7 @@ public class TravelController {
     public ResponseEntity<CustomResponseBody<GetTravelDetailDTO>> detailTravel(@PathVariable("travelId") Long travelId) {
         CustomResponseBody<GetTravelDetailDTO> responseBody = new CustomResponseBody<>("상세 여행지 불러오기");
         try{
-            GetTravelDetailDTO detailTravel = travelService.findDetailTravel(travelId);
+            GetTravelDetailDTO detailTravel = travelService.getTravelDetail(travelId);
             responseBody.getList().add(detailTravel);
         } catch (RuntimeException re){
             responseBody.setResultCode(-1);
@@ -77,7 +77,7 @@ public class TravelController {
     public ResponseEntity<CustomResponseBody<GetRandomTravelDTO>> randomTravel() {
         CustomResponseBody<GetRandomTravelDTO> responseBody = new CustomResponseBody<>("랜덤 여행지 불러오기 성공");
         try{
-            List<GetRandomTravelDTO> randomTravels = travelService.findRandomTravels();
+            List<GetRandomTravelDTO> randomTravels = travelService.getRandomTravels();
             responseBody.setList(randomTravels);
 
         } catch (RuntimeException re){
@@ -101,7 +101,7 @@ public class TravelController {
     public ResponseEntity<CustomResponseBody<GetAllTravelListDTO>> allTravel() {
         CustomResponseBody<GetAllTravelListDTO> responseBody = new CustomResponseBody<>("모든 여행지 리스트 불러오기 성공");
         try{
-            List<GetAllTravelListDTO> allTravels = travelService.findAllTravels();
+            List<GetAllTravelListDTO> allTravels = travelService.getAllTravels();
             responseBody.setList(allTravels);
 
         } catch (RuntimeException re){
