@@ -1,10 +1,11 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.domain.Course;
-import back.NADRIGIL.domain.CourseOrder;
-import back.NADRIGIL.domain.User;
+import back.NADRIGIL.domain.*;
+import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.dto.course.AddCourseDTO;
 import back.NADRIGIL.dto.course.AddCourseOrderDTO;
+import back.NADRIGIL.dto.course.GetCourseDetailDTO;
+import back.NADRIGIL.dto.course.GetCourseTravelDetailDTO;
 import back.NADRIGIL.repository.CourseRepository;
 import back.NADRIGIL.repository.TravelRepository;
 import back.NADRIGIL.repository.UserRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,9 +45,31 @@ public class CourseService {
             courseOrder.setTravel(travelRepository.findOne(addCourseOrderDTO.getTravelId()));
             courseOrder.setOrderNo(addCourseOrderDTO.getOrderNo());
             courseRepository.saveOrder(courseOrder);
-
         }
+    }
 
+    public GetCourseDetailDTO getCourseDetail(Long courseId) {
+        GetCourseDetailDTO getCourseDetailDTO = new GetCourseDetailDTO();
+        List<GetCourseTravelDetailDTO> getCourseTravelDetailDTOS = new ArrayList<>();
+
+        Course course = courseRepository.findOne(courseId);
+        List<CourseOrder> courseOrders = courseRepository.findCourseOrderList(courseId);
+
+        getCourseDetailDTO.setCourseName(course.getName());
+
+        for (CourseOrder courseOrder : courseOrders) {
+            GetCourseTravelDetailDTO getCourseTravelDetailDTO = new GetCourseTravelDetailDTO();
+            Travel travel = courseOrder.getTravel();
+            getCourseTravelDetailDTO.setTravelId(travel.getId());
+            getCourseTravelDetailDTO.setName(travel.getName());
+            getCourseTravelDetailDTO.setImage(travel.getImage());
+            getCourseTravelDetailDTO.setLatitude(travel.getLatitude());
+            getCourseTravelDetailDTO.setLongitude(travel.getLongitude());
+            getCourseTravelDetailDTOS.add(getCourseTravelDetailDTO);
+        }
+        getCourseDetailDTO.setCourseTravels(getCourseTravelDetailDTOS);
+
+        return getCourseDetailDTO;
 
     }
 }
