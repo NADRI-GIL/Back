@@ -11,4 +11,7 @@ public class GetMyCartListDTO {
     private String name;
     private String location;
     private String image;
+    private String address;
+    private double latitude;
+    private double longitude;
 }

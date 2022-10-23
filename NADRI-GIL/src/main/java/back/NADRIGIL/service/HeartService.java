@@ -42,14 +42,18 @@ public class HeartService {
         Travel travel = travelRepository.findOne(addHeartDTO.getTravelId());
 
         Boolean is_delete = deleteDuplicateHeart(addHeartDTO.getLoginId(), addHeartDTO.getTravelId());  // 찜 삭제
-        if (!is_delete) {
+        if (is_delete) {
+            travel.setLikeCount(travel.getLikeCount()-1);
+            return is_delete;
+        } else {
             Heart heart = new Heart();
             heart.setUser(user.get(0));
             heart.setTravel(travel);
             heartRepository.add(heart);
+            travel.setLikeCount(travel.getLikeCount()+1);
+            return is_delete;
         }
 
-        return is_delete;
     }
 
     public boolean deleteDuplicateHeart(String loginId, Long travelId ) {

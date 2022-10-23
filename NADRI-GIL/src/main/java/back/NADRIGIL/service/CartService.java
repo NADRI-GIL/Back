@@ -62,6 +62,9 @@ public class CartService {
             travel.setName(myCart.getTravel().getName());
             travel.setLocation(myCart.getTravel().getLocation());
             travel.setImage(myCart.getTravel().getImage());
+            travel.setAddress(myCart.getTravel().getAddress());
+            travel.setLatitude(myCart.getTravel().getLatitude());
+            travel.setLongitude(myCart.getTravel().getLongitude());
             result.add(travel);
         }
         return result;
