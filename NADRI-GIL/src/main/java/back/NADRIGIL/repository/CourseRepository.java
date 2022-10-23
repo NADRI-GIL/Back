@@ -51,4 +51,15 @@ public class CourseRepository {
                 .getResultList();
     }
 
+    /**
+     * 해당 userId의 코스 리스트 반환
+     * @param userId
+     * @return
+     */
+    public List<Course> findMyCourseList(Long userId) {
+        return em.createQuery("select c from Course c where c.user.id = :userId", Course.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
 }

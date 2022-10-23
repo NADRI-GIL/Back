@@ -2,10 +2,7 @@ package back.NADRIGIL.service;
 
 import back.NADRIGIL.domain.*;
 import back.NADRIGIL.dto.cart.GetMyCartListDTO;
-import back.NADRIGIL.dto.course.AddCourseDTO;
-import back.NADRIGIL.dto.course.AddCourseOrderDTO;
-import back.NADRIGIL.dto.course.GetCourseDetailDTO;
-import back.NADRIGIL.dto.course.GetCourseTravelDetailDTO;
+import back.NADRIGIL.dto.course.*;
 import back.NADRIGIL.repository.CourseRepository;
 import back.NADRIGIL.repository.TravelRepository;
 import back.NADRIGIL.repository.UserRepository;
@@ -71,5 +68,30 @@ public class CourseService {
 
         return getCourseDetailDTO;
 
+    }
+
+    public List<GetMyCourseListDTO> getMyCourseList(String loginId) {
+        List<GetMyCourseListDTO> result = new ArrayList<>();
+        List<User> user = userRepository.findByLoginId(loginId);
+        if (user.isEmpty()) {
+            throw new IllegalStateException("로그인이 필요한 기능입니다.");
+        }
+        List<Course> myCourses = courseRepository.findMyCourseList(user.get(0).getId());
+        for(Course myCourse : myCourses){
+            GetMyCourseListDTO course = new GetMyCourseListDTO();
+            course.setId(myCourse.getId());
+            course.setName(myCourse.getName());
+            List<GetMyCourseTravelsDTO> travels = new ArrayList<>();
+            List<CourseOrder> courseOrders = courseRepository.findCourseOrderList(myCourse.getId());
+            for (CourseOrder courseOrder : courseOrders) {
+                GetMyCourseTravelsDTO travel = new GetMyCourseTravelsDTO();
+                travel.setTravelId(courseOrder.getTravel().getId());
+                travel.setTravelName(courseOrder.getTravel().getName());
+                travels.add(travel);
+            }
+            course.setCourseTravels(travels);
+            result.add(course);
+        }
+        return result;
     }
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
         name = "REVIEW_SEQ_GENERATOR",
         initialValue = 1, allocationSize = 1)
 @Getter @Setter
-public class Review {
+public class Review extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="REVIEW_SEQ_GENERATOR")
     @Column(name = "review_id")

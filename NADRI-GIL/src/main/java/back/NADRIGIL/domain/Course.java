@@ -12,7 +12,7 @@ import java.util.List;
         name = "COURSE_SEQ_GENERATOR",
         initialValue = 1, allocationSize = 1)
 @Getter @Setter
-public class Course {
+public class Course extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COURSE_SEQ_GENERATOR")
     @Column(name = "course_id")

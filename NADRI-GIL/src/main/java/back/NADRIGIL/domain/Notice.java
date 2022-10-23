@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
         name = "NOTICE_SEQ_GENERATOR",
         initialValue = 1, allocationSize = 1)
 @Getter @Setter
-public class Notice {
+public class Notice extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="NOTICE_SEQ_GENERATOR")
     @Column(name = "notice_id")
