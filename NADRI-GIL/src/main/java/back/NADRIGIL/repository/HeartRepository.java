@@ -43,4 +43,14 @@ public class HeartRepository {
                 .getResultList();
     }
 
+    /**
+     * 해당 userId의 찜 리스트 반환
+     * @param userId
+     * @return
+     */
+    public List<Heart> findMyHeartList(Long userId) {
+        return em.createQuery("select h from Heart h where h.user.id = :userId", Heart.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
 }

@@ -7,6 +7,7 @@ import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.cart.AddCartDTO;
 import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.dto.heart.AddHeartDTO;
+import back.NADRIGIL.dto.heart.GetMyHeartListDTO;
 import back.NADRIGIL.repository.HeartRepository;
 import back.NADRIGIL.repository.TravelRepository;
 import back.NADRIGIL.repository.UserRepository;
@@ -28,7 +29,12 @@ public class HeartService {
 
     @Transactional
     public boolean addHeart(AddHeartDTO addHeartDTO) {
-
+//        if (addHeartDTO.getLoginId().isBlank()) {
+//            throw new IllegalStateException("올바르지 않은 형식입니다.(loginId가 없음)");
+//        }
+//        if (addHeartDTO.getTravelId()==null) {
+//            throw new IllegalStateException("올바르지 않은 형식입니다.(travelId가 없음");
+//        }
         List<User> user = userRepository.findByLoginId(addHeartDTO.getLoginId());
         if (user.isEmpty()) {
             throw new IllegalStateException("로그인이 필요한 기능입니다.");
@@ -55,4 +61,22 @@ public class HeartService {
         return false;
     }
 
+    public List<GetMyHeartListDTO> getMyHeartList(String loginId) {
+        List<GetMyHeartListDTO> result = new ArrayList<>();
+        List<User> user = userRepository.findByLoginId(loginId);
+        if (user.isEmpty()) {
+            throw new IllegalStateException("로그인이 필요한 기능입니다.");
+        }
+        List<Heart> myHearts = heartRepository.findMyHeartList(user.get(0).getId());
+        for(Heart myHeart : myHearts){
+            GetMyHeartListDTO travel = new GetMyHeartListDTO();
+            travel.setId(myHeart.getId());
+            travel.setTravelId(myHeart.getTravel().getId());
+            travel.setName(myHeart.getTravel().getName());
+            travel.setLocation(myHeart.getTravel().getLocation());
+            travel.setImage(myHeart.getTravel().getImage());
+            result.add(travel);
+        }
+        return result;
+    }
 }

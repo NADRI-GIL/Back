@@ -5,6 +5,7 @@ import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.dto.cart.AddCartDTO;
 import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.dto.heart.AddHeartDTO;
+import back.NADRIGIL.dto.heart.GetMyHeartListDTO;
 import back.NADRIGIL.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,4 +50,28 @@ public class HeartController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    /**
+     * 로그인된 사용자의 찜 리스트 불러오기
+     * @param loginIdMap
+     * @return
+     */
+    @PostMapping("/hearts/myList")
+    public ResponseEntity<CustomResponseBody<GetMyHeartListDTO>> getMyHeartList(@RequestBody Map<String, String> loginIdMap) {
+        CustomResponseBody<GetMyHeartListDTO> responseBody = new CustomResponseBody<>("내 찜 리스트 불러오기 성공");
+        try {
+            List<GetMyHeartListDTO> myHearts = heartService.getMyHeartList(loginIdMap.get("loginId"));
+            responseBody.setList(myHearts);
+
+        } catch (IllegalStateException e){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
+        return ResponseEntity.ok().body(responseBody);
+    }
 }

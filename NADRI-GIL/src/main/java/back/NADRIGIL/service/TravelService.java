@@ -7,6 +7,7 @@ import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class TravelService {
         travelRepository.save(travel);
     }
 
+//    @Modifying(clearAutomatically = true)
     public List<GetRandomTravelDTO> getRandomTravels() {
         List<GetRandomTravelDTO> result = new ArrayList<>();
         List<Travel> randomTravels = travelRepository.findRandom();
