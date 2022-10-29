@@ -118,6 +118,30 @@ public class TravelController {
     }
 
     /**
+     * 찜 개수 기반 여행지 50개 불러오기
+     * @return
+     */
+    @GetMapping(value = "/travels/heart")
+    public ResponseEntity<CustomResponseBody<GetAllTravelListDTO>> getHotTravels() {
+        CustomResponseBody<GetAllTravelListDTO> responseBody = new CustomResponseBody<>("찜 개수 기반 여행지 50개 불러오기 성공");
+        try{
+            List<GetAllTravelListDTO> hotTravels = travelService.getHotTravels();
+            responseBody.setList(hotTravels);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
      * 여행지 수정하기
      * @param travelId
      * @param updateTravelDto

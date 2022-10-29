@@ -54,6 +54,20 @@ public class TravelService {
         return result;
     }
 
+    public List<GetAllTravelListDTO> getHotTravels() {
+        List<GetAllTravelListDTO> result = new ArrayList<>();
+        List<Travel> hotTravels = travelRepository.findHot();
+        for(Travel hotTravel : hotTravels){
+            GetAllTravelListDTO travel = new GetAllTravelListDTO();
+            travel.setId(hotTravel.getId());
+            travel.setName(hotTravel.getName());
+            travel.setLocation(hotTravel.getLocation());
+            travel.setImage(hotTravel.getImage());
+            result.add(travel);
+        }
+        return result;
+    }
+
     public GetTravelDetailDTO getTravelDetail(Long travelId) {
         GetTravelDetailDTO getTravelDetailDto = new GetTravelDetailDTO();
         Travel travel = travelRepository.findOne(travelId);

@@ -1,6 +1,9 @@
 package back.NADRIGIL.controller;
 
+import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.domain.User;
+import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.dto.user.GetUserInfoDTO;
 import back.NADRIGIL.dto.user.LoginDTO;
 import back.NADRIGIL.dto.user.SignUpDTO;
 import back.NADRIGIL.domain.BaseResponseBody;
@@ -120,5 +123,30 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
         }
         return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 사용자 정보 불러오기
+     * @param loginId
+     * @return
+     */
+    @GetMapping(value = "/users/mypage/{loginId}")
+    public ResponseEntity<CustomResponseBody<GetUserInfoDTO>> getUserInfo(@PathVariable("loginId") String loginId) {
+        CustomResponseBody<GetUserInfoDTO> responseBody = new CustomResponseBody<>("사용자 정보 불러오기 성공");
+        try{
+            GetUserInfoDTO userInfoDTO = userService.getUserInfo(loginId);
+            responseBody.getList().add(userInfoDTO);
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
+        return ResponseEntity.ok().body(responseBody);
+
     }
 }

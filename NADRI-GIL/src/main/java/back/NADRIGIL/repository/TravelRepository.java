@@ -48,4 +48,14 @@ public class TravelRepository {
         return em.createQuery("select t from Travel t", Travel.class)
                 .getResultList();
     }
+
+    /**
+     * 찜 수 많은 여행지 50개 가져오기
+     * @return
+     */
+    public List<Travel> findHot() {
+        return em.createQuery("select t from Travel t order by t.likeCount desc ", Travel.class)
+                .setMaxResults(50)
+                .getResultList();       //native sql
+    }
 }

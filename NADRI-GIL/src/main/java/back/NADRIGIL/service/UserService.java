@@ -1,5 +1,8 @@
 package back.NADRIGIL.service;
 
+import back.NADRIGIL.domain.Travel;
+import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.dto.user.GetUserInfoDTO;
 import back.NADRIGIL.dto.user.LoginDTO;
 import back.NADRIGIL.dto.user.SignUpDTO;
 import back.NADRIGIL.domain.User;
@@ -137,6 +140,22 @@ public class UserService {
             throw new IllegalStateException("비밀번호가 틀렸습니다.");
         }
         return findUsers.get(0);
+    }
+
+    /**
+     * 마이페이지에 이용할 유저 정보 불러오기
+     * @param loginId
+     * @return
+     */
+    public GetUserInfoDTO getUserInfo(String loginId) {
+        GetUserInfoDTO getUserInfoDTO = new GetUserInfoDTO();
+        User user = userRepository.findByLoginId(loginId).get(0);
+        getUserInfoDTO.setId(user.getId());
+        getUserInfoDTO.setLoginId(user.getLoginId());
+        getUserInfoDTO.setEmail(user.getEmail());
+        getUserInfoDTO.setNickname(user.getNickname());
+
+        return getUserInfoDTO;
     }
 
 //    //회원 전체 조회

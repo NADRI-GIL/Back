@@ -54,7 +54,7 @@ public class RecommendController {
             String[] command = new String[4];
             command[0] = "python";
             //command[1] = "\\workspace\\java-call-python\\src\\main\\resources\\test.py";
-            command[1] = "/Users/eunseo/Desktop/recommendTest.py";
+            command[1] = "/home/ec2-user/Server/recommend/recommendCode.py";
             command[2] = travelId.toString();
 
             List<GetRecommendTravelDTO> result = new ArrayList<>();
