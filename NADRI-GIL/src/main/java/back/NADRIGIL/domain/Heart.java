@@ -2,6 +2,7 @@ package back.NADRIGIL.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -24,5 +25,6 @@ public class Heart {
     @JoinColumn(name = "travel_id")
     private Travel travel;
 
-    private Boolean isDeleted;
+//    @ColumnDefault("0")
+//    private Boolean isDeleted;
 }

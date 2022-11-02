@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'back'
-version = '0.0.9-SNAPSHOT'
+version = '0.0.11-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
@@ -36,6 +36,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
 	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.0.6'
 	implementation 'org.apache.commons:commons-exec:1.3'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 }
 
