@@ -28,7 +28,7 @@ public class GetTravelDetailDTO {
 
     private double longitude;
 
-//    private String category;
+    private double reviewTotal;
 
-    private List<Review> reviews = new ArrayList<>();
+//    private List<Review> reviews = new ArrayList<>();
 }

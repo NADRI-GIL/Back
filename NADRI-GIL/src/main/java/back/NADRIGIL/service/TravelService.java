@@ -80,8 +80,8 @@ public class TravelService {
         getTravelDetailDto.setInfo(travel.getInfo());
         getTravelDetailDto.setLatitude(travel.getLatitude());
         getTravelDetailDto.setLongitude(travel.getLongitude());
-//        detailTravelDto.setCategory(travel.getCategory());
-        getTravelDetailDto.setReviews(travel.getReviews());
+        getTravelDetailDto.setReviewTotal(travel.getReviewTotal());
+//        getTravelDetailDto.setReviews(travel.getReviews());
 
         return getTravelDetailDto;
     }
