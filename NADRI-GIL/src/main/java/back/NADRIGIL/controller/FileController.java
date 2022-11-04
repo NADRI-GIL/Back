@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,28 +27,26 @@ public class FileController {
     AmazonS3Client amazonS3Client;
 
     @PostMapping("/upload")
-    public ResponseEntity<CustomResponseBody<String>> upload(@RequestBody MultipartFile[] multipartFileList) throws Exception {
+    public ResponseEntity<CustomResponseBody<String>> upload(@RequestParam("s3upload") MultipartFile multipartFile) throws Exception {
         CustomResponseBody<String> responseBody = new CustomResponseBody<>("리뷰 이미지 저장하기 성공");
         try {
             List<String> imagePathList = new ArrayList<>();
 
-            for(MultipartFile multipartFile: multipartFileList) {
-                String originalName = multipartFile.getOriginalFilename(); // 파일 이름
-                long size = multipartFile.getSize(); // 파일 크기
+            String originalName = multipartFile.getOriginalFilename(); // 파일 이름
+            long size = multipartFile.getSize(); // 파일 크기
 
-                ObjectMetadata objectMetaData = new ObjectMetadata();
-                objectMetaData.setContentType(multipartFile.getContentType());
-                objectMetaData.setContentLength(size);
+            ObjectMetadata objectMetaData = new ObjectMetadata();
+            objectMetaData.setContentType(multipartFile.getContentType());
+            objectMetaData.setContentLength(size);
 
-                // S3에 업로드
-                amazonS3Client.putObject(
-                        new PutObjectRequest(S3Bucket, originalName, multipartFile.getInputStream(), objectMetaData)
-                                .withCannedAcl(CannedAccessControlList.PublicRead)
-                );
+            // S3에 업로드
+            amazonS3Client.putObject(
+                    new PutObjectRequest(S3Bucket, originalName, multipartFile.getInputStream(), objectMetaData)
+                            .withCannedAcl(CannedAccessControlList.PublicRead)
+            );
 
-                String imagePath = amazonS3Client.getUrl(S3Bucket, originalName).toString(); // 접근가능한 URL 가져오기
-                imagePathList.add(imagePath);
-            }
+            String imagePath = amazonS3Client.getUrl(S3Bucket, originalName).toString(); // 접근가능한 URL 가져오기
+            imagePathList.add(imagePath);
 
             responseBody.setList(imagePathList);
 

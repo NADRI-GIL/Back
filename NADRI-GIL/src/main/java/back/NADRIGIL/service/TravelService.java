@@ -1,11 +1,14 @@
 package back.NADRIGIL.service;
 
+import back.NADRIGIL.domain.Review;
+import back.NADRIGIL.dto.review.GetReviewListDTO;
 import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
 import back.NADRIGIL.dto.travel.GetRandomTravelDTO;
 import back.NADRIGIL.dto.travel.GetAllTravelListDTO;
 import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
+import back.NADRIGIL.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.List;
 public class TravelService {
 
     private final TravelRepository travelRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void saveTravel(Travel travel){
@@ -70,6 +74,8 @@ public class TravelService {
 
     public GetTravelDetailDTO getTravelDetail(Long travelId) {
         GetTravelDetailDTO getTravelDetailDto = new GetTravelDetailDTO();
+        List<GetReviewListDTO> getReviewListDTOS = new ArrayList<>();
+
         Travel travel = travelRepository.findOne(travelId);
         getTravelDetailDto.setId(travel.getId());
         getTravelDetailDto.setImage(travel.getImage());
@@ -81,7 +87,19 @@ public class TravelService {
         getTravelDetailDto.setLatitude(travel.getLatitude());
         getTravelDetailDto.setLongitude(travel.getLongitude());
         getTravelDetailDto.setReviewTotal(travel.getReviewTotal());
-//        getTravelDetailDto.setReviews(travel.getReviews());
+
+        //상세페이지 리뷰 정보 가져오기
+        for (Review review : travel.getReviews()) {
+            GetReviewListDTO getReviewListDTO = new GetReviewListDTO();
+            getReviewListDTO.setId(review.getId());
+            getReviewListDTO.setStar(review.getStar());
+            getReviewListDTO.setContent(review.getContent());
+            getReviewListDTO.setImage(review.getImage());
+            getReviewListDTO.setCreatedDate(getReviewListDTO.changeLocalDaeTime(review.getCreatedDate()));
+            getReviewListDTO.setNickname(userRepository.findOne(review.getUser().getId()).getLoginId());
+            getReviewListDTOS.add(getReviewListDTO);
+        }
+        getTravelDetailDto.setReviews(getReviewListDTOS);
 
         return getTravelDetailDto;
     }

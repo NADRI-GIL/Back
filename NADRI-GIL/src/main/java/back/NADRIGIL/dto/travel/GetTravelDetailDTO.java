@@ -1,6 +1,7 @@
 package back.NADRIGIL.dto.travel;
 
 import back.NADRIGIL.domain.Review;
+import back.NADRIGIL.dto.review.GetReviewListDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,5 +31,5 @@ public class GetTravelDetailDTO {
 
     private double reviewTotal;
 
-//    private List<Review> reviews = new ArrayList<>();
+    private List<GetReviewListDTO> reviews = new ArrayList<>();
 }
