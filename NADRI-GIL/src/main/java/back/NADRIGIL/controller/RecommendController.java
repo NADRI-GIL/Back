@@ -1,11 +1,16 @@
 package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.CustomResponseBody;
+import back.NADRIGIL.domain.Heart;
 import back.NADRIGIL.domain.Travel;
+import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.travel.GetRandomTravelDTO;
 import back.NADRIGIL.dto.travel.GetRecommendTravelDTO;
 import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.repository.HeartRepository;
 import back.NADRIGIL.repository.TravelRepository;
+import back.NADRIGIL.repository.UserRepository;
+import back.NADRIGIL.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,8 @@ import java.util.List;
 public class RecommendController {
 
     private final TravelRepository travelRepository;
+    private final UserRepository userRepository;
+    private final HeartRepository heartRepository;
 
     public List<String> execPython(String[] command) throws IOException, InterruptedException {
         List<String> travel_ids = new ArrayList<>();
@@ -46,23 +53,35 @@ public class RecommendController {
 
     }
 
-    @GetMapping(value = "/recommend/{travelId}")
-    public ResponseEntity<CustomResponseBody<GetRecommendTravelDTO>> getRecommendTravels(@PathVariable("travelId") Long travelId) {
+    @GetMapping(value = "/recommend/{loginId}")
+    public ResponseEntity<CustomResponseBody<GetRecommendTravelDTO>> getRecommendTravels(@PathVariable("loginId") String loginId) {
         CustomResponseBody<GetRecommendTravelDTO> responseBody = new CustomResponseBody<>("추천 여행지 불러오기 성공");
         try{
+            User user = userRepository.findByLoginId(loginId).get(0);
+            List<Heart> hearts = heartRepository.findMyHeartList(user.getId());
+            List<String> travelIdList = new ArrayList<>();
+            for (Heart heart : hearts) {
+                travelIdList.add(heart.getTravel().getId().toString());
+            }
+
             System.out.println("Python Call");
-            String[] command = new String[4];
+            String[] command = new String[52];      // 찜 목록은 50개 이상 받지 않음
             command[0] = "python";
             //command[1] = "\\workspace\\java-call-python\\src\\main\\resources\\test.py";
             command[1] = "/Users/eunseo/Desktop/recommend/recommendCode.py";
-            command[2] = travelId.toString();
+            for (int i = 0; i < travelIdList.size(); i++) {
+                command[i+2] = travelIdList.get(i);
+            }
 
             List<GetRecommendTravelDTO> result = new ArrayList<>();
             List<String> a = execPython(command);
             String c = a.get(0).substring(1);
-            String d[] = c.split(", ");
-            for (int j = 0; j<2;j++) {      // 하나의 찜 당 추천 받을 여행지 개수에 따라 j 조절 일단 2개로 함(6개까지 가져올 수 있음)
+            String d[] = c.split(", |]");
+            for (int j = 0; j<50;j++) {      // 찜 목록 기반으로 여행지는 50개 미만으로 추천해줌
                 String b = d[j];
+                if (b.equals("\r\n")) {
+                    break;
+                }
                 Long i = Long.parseLong(b);
                 Travel travel = travelRepository.findOne(i);
                 GetRecommendTravelDTO getRecommendTravelDTO = new GetRecommendTravelDTO();
