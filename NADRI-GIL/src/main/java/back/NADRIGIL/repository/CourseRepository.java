@@ -62,4 +62,10 @@ public class CourseRepository {
                 .getResultList();
     }
 
+    public List<Course> findSharedCourseList() {
+        return em.createQuery("select c from Course c where c.isShared = :true", Course.class)
+                .setParameter("true", true)
+                .getResultList();
+    }
+
 }

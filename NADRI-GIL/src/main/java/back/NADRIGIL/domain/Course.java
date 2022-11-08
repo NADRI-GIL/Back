@@ -2,6 +2,7 @@ package back.NADRIGIL.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,7 +25,10 @@ public class Course extends BaseTimeEntity {
 
     private String name;
 
-//    private String theme;
+    private String content;
+
+    @ColumnDefault("0")
+    private boolean isShared;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)      // cascade all
     private List<CourseOrder> courseOrders = new ArrayList<>();

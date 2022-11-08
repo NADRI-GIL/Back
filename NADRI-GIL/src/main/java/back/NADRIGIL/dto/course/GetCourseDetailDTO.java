@@ -9,5 +9,6 @@ import java.util.List;
 public class GetCourseDetailDTO {
 
     private String courseName;
+    private String courseContent;
     private List<GetCourseTravelDetailDTO> courseTravels;
 }

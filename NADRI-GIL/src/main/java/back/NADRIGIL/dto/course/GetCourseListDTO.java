@@ -6,10 +6,11 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class GetMyCourseListDTO {
+public class GetCourseListDTO {
 
     private Long id;
     private String name;
-    private List<GetMyCourseTravelsDTO> courseTravels;
+    private boolean is_shared;
+    private List<GetCourseTravelsDTO> courseTravels;
 
 }

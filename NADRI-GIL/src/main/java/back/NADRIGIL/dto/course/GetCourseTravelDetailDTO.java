@@ -11,4 +11,5 @@ public class GetCourseTravelDetailDTO {
     private String image;
     private double latitude;
     private double longitude;
+    private String address;
 }

@@ -2,10 +2,10 @@ package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
-import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.dto.course.AddCourseDTO;
 import back.NADRIGIL.dto.course.GetCourseDetailDTO;
-import back.NADRIGIL.dto.course.GetMyCourseListDTO;
+import back.NADRIGIL.dto.course.GetCourseListDTO;
+import back.NADRIGIL.dto.travel.GetAllTravelListDTO;
 import back.NADRIGIL.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -51,10 +51,10 @@ public class CourseController {
      * @return
      */
     @PostMapping("/courses/myList")
-    public ResponseEntity<CustomResponseBody<GetMyCourseListDTO>> getMyCourseList(@RequestBody Map<String, String> loginIdMap) {
-        CustomResponseBody<GetMyCourseListDTO> responseBody = new CustomResponseBody<>("내 코스 리스트 불러오기 성공");
+    public ResponseEntity<CustomResponseBody<GetCourseListDTO>> getMyCourseList(@RequestBody Map<String, String> loginIdMap) {
+        CustomResponseBody<GetCourseListDTO> responseBody = new CustomResponseBody<>("내 코스 리스트 불러오기 성공");
         try {
-            List<GetMyCourseListDTO> myCourses = courseService.getMyCourseList(loginIdMap.get("loginId"));
+            List<GetCourseListDTO> myCourses = courseService.getMyCourseList(loginIdMap.get("loginId"));
             responseBody.setList(myCourses);
 
         } catch (RuntimeException re){
@@ -84,6 +84,52 @@ public class CourseController {
         } catch (IllegalStateException e){
             responseBody.setResultCode(-1);
             responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 코스 공유하기
+     * @param courseId
+     * @return
+     */
+    @PostMapping("/courses/share/{courseId}")
+    public ResponseEntity<BaseResponseBody> shareCourse(@PathVariable("courseId") Long courseId){
+        BaseResponseBody responseBody = new BaseResponseBody("코스 공유 성공");
+        try{
+            courseService.shareCourse(courseId);
+        } catch (IllegalStateException e){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 공유된 코스들 불러오기
+     * @return
+     */
+    @GetMapping(value = "/courses/getShared")
+    public ResponseEntity<CustomResponseBody<GetCourseListDTO>> getSharedCourses() {
+        CustomResponseBody<GetCourseListDTO> responseBody = new CustomResponseBody<>("공유된 코스들 불러오기 성공");
+        try{
+            List<GetCourseListDTO> sharedTravels = courseService.getSharedCourseList();;
+            responseBody.setList(sharedTravels);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
             return ResponseEntity.badRequest().body(responseBody);
         } catch (Exception e){
             responseBody.setResultCode(-2);

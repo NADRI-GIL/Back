@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class GetMyCourseTravelsDTO {
+public class GetCourseTravelsDTO {
 
     private Long travelId;
     private String travelName;
