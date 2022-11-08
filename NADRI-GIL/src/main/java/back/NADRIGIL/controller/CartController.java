@@ -65,4 +65,27 @@ public class CartController {
 
         return ResponseEntity.ok().body(responseBody);
     }
+
+    /**
+     * 장바구니 삭제
+     * @param cartId
+     * @return
+     */
+    @PostMapping(value = "/carts/delete/{cartId}")
+    public ResponseEntity<BaseResponseBody> deleteCart(@PathVariable Long cartId) {
+        BaseResponseBody responseBody = new BaseResponseBody("장바구니 삭제 성공");
+        try{
+            cartService.deleteCart(cartId);
+
+        } catch (IllegalStateException e){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
+    }
 }

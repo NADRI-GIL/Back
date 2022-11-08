@@ -1,6 +1,7 @@
 package back.NADRIGIL.repository;
 
 import back.NADRIGIL.domain.Cart;
+import back.NADRIGIL.domain.Course;
 import back.NADRIGIL.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,23 @@ public class CartRepository {
      */
     public void add(Cart cart) {
         em.persist(cart);
+    }
+
+    /**
+     * 장바구니 삭제
+     * @param cart
+     */
+    public void delete(Cart cart) {
+        em.remove(cart);
+    }
+
+    /**
+     * 장바구니 id로 조회
+     * @param id
+     * @return
+     */
+    public Cart findOne(Long id) {
+        return em.find(Cart.class, id);
     }
 
     /**

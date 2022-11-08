@@ -1,8 +1,6 @@
 package back.NADRIGIL.service;
 
-import back.NADRIGIL.domain.Cart;
-import back.NADRIGIL.domain.Travel;
-import back.NADRIGIL.domain.User;
+import back.NADRIGIL.domain.*;
 import back.NADRIGIL.dto.cart.AddCartDTO;
 import back.NADRIGIL.dto.cart.GetMyCartListDTO;
 import back.NADRIGIL.repository.CartRepository;
@@ -68,5 +66,14 @@ public class CartService {
             result.add(travel);
         }
         return result;
+    }
+
+    @Transactional
+    public void deleteCart(Long cartId ) {
+        Cart cart = cartRepository.findOne(cartId);
+        if (cart==null) {
+            throw new IllegalStateException("이미 삭제한 장바구니 입니다.");
+        }
+        cartRepository.delete(cart);
     }
 }

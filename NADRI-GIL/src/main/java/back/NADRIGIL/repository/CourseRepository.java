@@ -1,9 +1,6 @@
 package back.NADRIGIL.repository;
 
-import back.NADRIGIL.domain.Cart;
-import back.NADRIGIL.domain.Course;
-import back.NADRIGIL.domain.CourseOrder;
-import back.NADRIGIL.domain.User;
+import back.NADRIGIL.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +26,22 @@ public class CourseRepository {
      */
     public void saveOrder(CourseOrder courseOrder) {
         em.persist(courseOrder);
+    }
+
+    /**
+     * 코스 삭제
+     * @param course
+     */
+    public void delete(Course course) {
+        em.remove(course);
+    }
+
+    /**
+     * 코스 순서 삭제
+     * @param courseOrder
+     */
+    public void deleteOrder(CourseOrder courseOrder) {
+        em.remove(courseOrder);
     }
 
     /**

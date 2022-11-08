@@ -140,4 +140,27 @@ public class CourseController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    /**
+     * 코스 삭제(해당 코스와 연결된 courseOrder들도 삭제)
+     * @param courseId
+     * @return
+     */
+    @PostMapping(value = "/courses/delete/{courseId}")
+    public ResponseEntity<BaseResponseBody> deleteCourse(@PathVariable Long courseId) {
+        BaseResponseBody responseBody = new BaseResponseBody("코스 삭제 성공");
+        try{
+            courseService.deleteCourse(courseId);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
+    }
+
 }

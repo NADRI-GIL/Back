@@ -132,4 +132,17 @@ public class CourseService {
             throw new IllegalStateException("이미 공유한 코스 입니다.");
         }
     }
+
+    @Transactional
+    public void deleteCourse(Long courseId ) {
+        Course findCourse = courseRepository.findOne(courseId);
+        if (findCourse==null) {
+            throw new IllegalStateException("이미 삭제한 코스 입니다.");
+        }
+        courseRepository.delete(findCourse);
+        List<CourseOrder> findCourseOrderList = courseRepository.findCourseOrderList(courseId);
+        for (CourseOrder courseOrder : findCourseOrderList) {
+            courseRepository.deleteOrder(courseOrder);
+        }
+    }
 }
