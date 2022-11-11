@@ -165,6 +165,11 @@ public class TravelController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    /**
+     * 여행지 삭제하기
+     * @param travelId
+     * @return
+     */
     @PostMapping(value = "/travels/{travelId}/delete")
     public ResponseEntity<BaseResponseBody> deleteTravel(@PathVariable Long travelId) {
         BaseResponseBody responseBody = new BaseResponseBody("여행지 삭제 성공");

@@ -53,6 +53,8 @@ public class TravelService {
             travel.setName(allTravel.getName());
             travel.setLocation(allTravel.getLocation());
             travel.setImage(allTravel.getImage());
+            travel.setLikeCount(allTravel.getLikeCount());
+            travel.setReviewTotal(allTravel.getReviewTotal());
             result.add(travel);
         }
         return result;
@@ -96,7 +98,7 @@ public class TravelService {
             getReviewListDTO.setContent(review.getContent());
             getReviewListDTO.setImage(review.getImage());
             getReviewListDTO.setCreatedDate(getReviewListDTO.changeLocalDaeTime(review.getCreatedDate()));
-            getReviewListDTO.setNickname(userRepository.findOne(review.getUser().getId()).getLoginId());
+            getReviewListDTO.setNickname(userRepository.findOne(review.getUser().getId()).getNickname());
             getReviewListDTOS.add(getReviewListDTO);
         }
         getTravelDetailDto.setReviews(getReviewListDTOS);

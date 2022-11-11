@@ -10,4 +10,6 @@ public class GetAllTravelListDTO {
     private String name;
     private String location;
     private String image;
+    private int likeCount;
+    private double reviewTotal;
 }
