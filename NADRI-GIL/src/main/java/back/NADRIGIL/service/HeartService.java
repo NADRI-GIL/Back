@@ -6,6 +6,7 @@ import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.cart.AddCartDTO;
 import back.NADRIGIL.dto.cart.GetMyCartListDTO;
+import back.NADRIGIL.dto.heart.AddFiveHeartsDTO;
 import back.NADRIGIL.dto.heart.AddHeartDTO;
 import back.NADRIGIL.dto.heart.GetMyHeartListDTO;
 import back.NADRIGIL.repository.HeartRepository;
@@ -82,5 +83,19 @@ public class HeartService {
             result.add(travel);
         }
         return result;
+    }
+
+    @Transactional
+    public void addFiveHearts(AddFiveHeartsDTO addFiveHeartsDTO) {
+        List<User> user = userRepository.findByLoginId(addFiveHeartsDTO.getLoginId());
+
+        for (Long travelId : addFiveHeartsDTO.getTravelIds()) {
+            Travel travel = travelRepository.findOne(travelId);
+            Heart heart = new Heart();
+            heart.setUser(user.get(0));
+            heart.setTravel(travel);
+            heartRepository.add(heart);
+            travel.setLikeCount(travel.getLikeCount()+1);
+        }
     }
 }
