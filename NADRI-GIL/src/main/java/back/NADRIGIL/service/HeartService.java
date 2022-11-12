@@ -90,12 +90,20 @@ public class HeartService {
         List<User> user = userRepository.findByLoginId(addFiveHeartsDTO.getLoginId());
 
         for (Long travelId : addFiveHeartsDTO.getTravelIds()) {
+            validateDuplicateHeart(addFiveHeartsDTO.getLoginId(), travelId);
             Travel travel = travelRepository.findOne(travelId);
             Heart heart = new Heart();
             heart.setUser(user.get(0));
             heart.setTravel(travel);
             heartRepository.add(heart);
             travel.setLikeCount(travel.getLikeCount()+1);
+        }
+    }
+
+    public void validateDuplicateHeart(String loginId, Long travelId ) {
+        List<Heart> findHeart = heartRepository.findHeart(loginId, travelId);
+        if (!findHeart.isEmpty()) {
+            throw new IllegalStateException("이미 담은 여행지 입니다.");
         }
     }
 }
