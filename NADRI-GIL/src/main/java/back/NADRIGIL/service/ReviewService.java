@@ -5,7 +5,9 @@ import back.NADRIGIL.domain.Review;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.cart.AddCartDTO;
+import back.NADRIGIL.dto.review.GetReviewListDTO;
 import back.NADRIGIL.dto.review.SaveReviewDTO;
+import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
 import back.NADRIGIL.repository.CartRepository;
 import back.NADRIGIL.repository.ReviewRepository;
 import back.NADRIGIL.repository.TravelRepository;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,5 +51,25 @@ public class ReviewService {
         calculateScore = calculateScore * totalReviewCount + saveReviewDTO.getStar();
         calculateScore = calculateScore / (totalReviewCount+1);
         travel.setReviewTotal(calculateScore);
+    }
+
+    public List<GetReviewListDTO> getTravelReviews(Long travelId) {
+        List<GetReviewListDTO> getReviewListDTOS = new ArrayList<>();
+
+        Travel travel = travelRepository.findOne(travelId);
+
+        //상세페이지 리뷰 정보 가져오기
+        for (Review review : travel.getReviews()) {
+            GetReviewListDTO getReviewListDTO = new GetReviewListDTO();
+            getReviewListDTO.setId(review.getId());
+            getReviewListDTO.setStar(review.getStar());
+            getReviewListDTO.setContent(review.getContent());
+            getReviewListDTO.setImage(review.getImage());
+            getReviewListDTO.setCreatedDate(getReviewListDTO.changeLocalDaeTime(review.getCreatedDate()));
+            getReviewListDTO.setNickname(userRepository.findOne(review.getUser().getId()).getNickname());
+            getReviewListDTOS.add(getReviewListDTO);
+        }
+
+        return getReviewListDTOS;
     }
 }

@@ -1,14 +1,17 @@
 package back.NADRIGIL.controller;
 
 import back.NADRIGIL.domain.BaseResponseBody;
+import back.NADRIGIL.domain.CustomResponseBody;
+import back.NADRIGIL.dto.review.GetReviewListDTO;
 import back.NADRIGIL.dto.review.SaveReviewDTO;
+import back.NADRIGIL.dto.travel.GetAllTravelListDTO;
 import back.NADRIGIL.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +38,31 @@ public class ReviewController {
             responseBody.setResultMsg(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
         }
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 해당 여행지의 리뷰 리스트 불러오기
+     * @param travelId
+     * @return
+     */
+    @GetMapping(value = "/reviews/all/{travelId}")
+    public ResponseEntity<CustomResponseBody<GetReviewListDTO>> getTravelReviews(@PathVariable("travelId") Long travelId) {
+        CustomResponseBody<GetReviewListDTO> responseBody = new CustomResponseBody<>("해당 여행지의 리뷰 리스트 불러오기 성공");
+        try{
+            List<GetReviewListDTO> getReviewListDTOS = reviewService.getTravelReviews(travelId);
+            responseBody.setList(getReviewListDTOS);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
         return ResponseEntity.ok().body(responseBody);
     }
 }
