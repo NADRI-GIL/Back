@@ -7,7 +7,9 @@ import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.cart.AddCartDTO;
 import back.NADRIGIL.dto.review.GetReviewListDTO;
 import back.NADRIGIL.dto.review.SaveReviewDTO;
+import back.NADRIGIL.dto.review.UpdateReviewDTO;
 import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.repository.CartRepository;
 import back.NADRIGIL.repository.ReviewRepository;
 import back.NADRIGIL.repository.TravelRepository;
@@ -58,7 +60,6 @@ public class ReviewService {
 
         Travel travel = travelRepository.findOne(travelId);
 
-        //상세페이지 리뷰 정보 가져오기
         for (Review review : travel.getReviews()) {
             GetReviewListDTO getReviewListDTO = new GetReviewListDTO();
             getReviewListDTO.setId(review.getId());
@@ -71,5 +72,22 @@ public class ReviewService {
         }
 
         return getReviewListDTOS;
+    }
+
+    @Transactional
+    public void updateReview(Long reviewId, UpdateReviewDTO updateReviewDTO) {
+        Review findReview = reviewRepository.findOne(reviewId);
+
+        findReview.setContent(updateReviewDTO.getContent());
+        findReview.setImage(updateReviewDTO.getImage());
+    }
+
+    @Transactional
+    public void deleteReview(Long reviewId ) {
+        Review review = reviewRepository.findOne(reviewId);
+        if (review==null) {
+            throw new IllegalStateException("이미 삭제한 리뷰 입니다.");
+        }
+        reviewRepository.delete(review);
     }
 }

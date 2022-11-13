@@ -3,6 +3,7 @@ package back.NADRIGIL.repository;
 import back.NADRIGIL.domain.Cart;
 import back.NADRIGIL.domain.Heart;
 import back.NADRIGIL.domain.Review;
+import back.NADRIGIL.domain.Travel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,23 @@ public class ReviewRepository {
      */
     public void save(Review review) {
         em.persist(review);
+    }
+
+    /**
+     * 리뷰 삭제
+     * @param review
+     */
+    public void delete(Review review) {
+        em.remove(review);
+    }
+
+    /**
+     * 리뷰 인덱스로 검색
+     * @param id
+     * @return
+     */
+    public Review findOne(Long id){
+        return em.find(Review.class, id);
     }
 
     /**
