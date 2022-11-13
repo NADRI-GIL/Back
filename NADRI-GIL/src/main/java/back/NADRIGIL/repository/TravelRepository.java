@@ -58,4 +58,14 @@ public class TravelRepository {
                 .setMaxResults(50)
                 .getResultList();       //native sql
     }
+
+    /**
+     * 리뷰 별점 높은 여행지 50개 가져오기
+     * @return
+     */
+    public List<Travel> findGoodReview() {
+        return em.createQuery("select t from Travel t order by t.reviewTotal desc ", Travel.class)
+                .setMaxResults(50)
+                .getResultList();       //native sql
+    }
 }

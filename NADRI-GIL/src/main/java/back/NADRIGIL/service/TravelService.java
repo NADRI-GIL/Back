@@ -69,6 +69,24 @@ public class TravelService {
             travel.setName(hotTravel.getName());
             travel.setLocation(hotTravel.getLocation());
             travel.setImage(hotTravel.getImage());
+            travel.setLikeCount(hotTravel.getLikeCount());
+            travel.setReviewTotal(hotTravel.getReviewTotal());
+            result.add(travel);
+        }
+        return result;
+    }
+
+    public List<GetAllTravelListDTO> getGoodReviewTravels() {
+        List<GetAllTravelListDTO> result = new ArrayList<>();
+        List<Travel> goodReviewTravels = travelRepository.findGoodReview();
+        for(Travel goodReviewTravel : goodReviewTravels){
+            GetAllTravelListDTO travel = new GetAllTravelListDTO();
+            travel.setId(goodReviewTravel.getId());
+            travel.setName(goodReviewTravel.getName());
+            travel.setLocation(goodReviewTravel.getLocation());
+            travel.setImage(goodReviewTravel.getImage());
+            travel.setLikeCount(goodReviewTravel.getLikeCount());
+            travel.setReviewTotal(goodReviewTravel.getReviewTotal());
             result.add(travel);
         }
         return result;
