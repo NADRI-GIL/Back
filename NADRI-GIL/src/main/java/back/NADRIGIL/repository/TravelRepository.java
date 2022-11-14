@@ -1,6 +1,8 @@
 package back.NADRIGIL.repository;
 
+import back.NADRIGIL.domain.Cart;
 import back.NADRIGIL.domain.Travel;
+import back.NADRIGIL.dto.travel.GetSearchWordDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,12 @@ public class TravelRepository {
      */
     public Travel findOne(Long id){
         return em.find(Travel.class, id);
+    }
+
+    public List<Travel> findWord(String word) {
+        return em.createQuery("select t from Travel t where t.name like concat('%',:word,'%')", Travel.class)
+                .setParameter("word", word)
+                .getResultList();
     }
 
     /**

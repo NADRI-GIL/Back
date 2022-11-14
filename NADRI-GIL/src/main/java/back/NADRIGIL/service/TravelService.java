@@ -2,10 +2,7 @@ package back.NADRIGIL.service;
 
 import back.NADRIGIL.domain.Review;
 import back.NADRIGIL.dto.review.GetReviewListDTO;
-import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
-import back.NADRIGIL.dto.travel.GetRandomTravelDTO;
-import back.NADRIGIL.dto.travel.GetAllTravelListDTO;
-import back.NADRIGIL.dto.travel.UpdateTravelDTO;
+import back.NADRIGIL.dto.travel.*;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.repository.TravelRepository;
 import back.NADRIGIL.repository.UserRepository;
@@ -28,6 +25,22 @@ public class TravelService {
     @Transactional
     public void saveTravel(Travel travel){
         travelRepository.save(travel);
+    }
+
+    public List<GetAllTravelListDTO> getSearchTravels(GetSearchWordDTO getSearchWordDTO) {
+        List<GetAllTravelListDTO> result = new ArrayList<>();
+        List<Travel> searchTravels = travelRepository.findWord(getSearchWordDTO.getWord());
+        for (Travel searchTravel : searchTravels) {
+            GetAllTravelListDTO travel = new GetAllTravelListDTO();
+            travel.setId(searchTravel.getId());
+            travel.setName(searchTravel.getName());
+            travel.setImage(searchTravel.getImage());
+            travel.setLocation(searchTravel.getLocation());
+            travel.setLikeCount(searchTravel.getLikeCount());
+            travel.setReviewTotal(searchTravel.getReviewTotal());
+            result.add(travel);
+        }
+        return result;
     }
 
 //    @Modifying(clearAutomatically = true)

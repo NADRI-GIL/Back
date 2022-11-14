@@ -1,9 +1,6 @@
 package back.NADRIGIL.controller;
 
-import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
-import back.NADRIGIL.dto.travel.GetRandomTravelDTO;
-import back.NADRIGIL.dto.travel.GetAllTravelListDTO;
-import back.NADRIGIL.dto.travel.UpdateTravelDTO;
+import back.NADRIGIL.dto.travel.*;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.domain.Travel;
@@ -31,6 +28,31 @@ public class TravelController {
         BaseResponseBody responseBody = new BaseResponseBody("여행지 저장 성공");
         try{
             travelService.saveTravel(travel);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 여행지 검색
+     * @param getSearchWordDTO
+     * @return
+     */
+    @PostMapping("/travels/search")
+    public ResponseEntity<CustomResponseBody<GetAllTravelListDTO>> searchTravel(@RequestBody GetSearchWordDTO getSearchWordDTO) {
+        CustomResponseBody<GetAllTravelListDTO> responseBody = new CustomResponseBody<>("여행지 검색 결과 불러오기 성공");
+        try{
+            List<GetAllTravelListDTO> searchTravels = travelService.getSearchTravels(getSearchWordDTO);
+            responseBody.setList(searchTravels);
 
         } catch (RuntimeException re){
             responseBody.setResultCode(-1);
