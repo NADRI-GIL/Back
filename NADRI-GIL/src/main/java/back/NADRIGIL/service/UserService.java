@@ -2,8 +2,10 @@ package back.NADRIGIL.service;
 
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.dto.user.GetUserInfoDTO;
 import back.NADRIGIL.dto.user.LoginDTO;
+import back.NADRIGIL.dto.user.PasswordDTO;
 import back.NADRIGIL.dto.user.SignUpDTO;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.repository.UserRepository;
@@ -159,6 +161,31 @@ public class UserService {
         getUserInfoDTO.setNickname(user.getNickname());
 
         return getUserInfoDTO;
+    }
+
+    /**
+     * 올바른 비밀번호 인가 확인
+     * @param passwordDTO
+     */
+    public void checkPassword(PasswordDTO passwordDTO) {
+        User user = userRepository.findOne(passwordDTO.getId());
+
+        String inputPassword = getEncryptPassword(passwordDTO.getPassword());
+        String findPassword = user.getPassword();
+        if (!findPassword.equals(inputPassword)) {
+            throw new IllegalStateException("비밀번호가 틀렸습니다.");
+        }
+    }
+
+    /**
+     * 비밀번호 변경
+     * @param passwordDTO
+     */
+    @Transactional
+    public void updatePassword(PasswordDTO passwordDTO) {
+        User findUser = userRepository.findOne(passwordDTO.getId());
+
+        findUser.setPassword(getEncryptPassword(passwordDTO.getPassword()));
     }
 
     @Transactional

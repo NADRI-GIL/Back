@@ -3,8 +3,10 @@ package back.NADRIGIL.controller;
 import back.NADRIGIL.domain.CustomResponseBody;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.travel.GetTravelDetailDTO;
+import back.NADRIGIL.dto.travel.UpdateTravelDTO;
 import back.NADRIGIL.dto.user.GetUserInfoDTO;
 import back.NADRIGIL.dto.user.LoginDTO;
+import back.NADRIGIL.dto.user.PasswordDTO;
 import back.NADRIGIL.dto.user.SignUpDTO;
 import back.NADRIGIL.domain.BaseResponseBody;
 import back.NADRIGIL.service.UserService;
@@ -148,6 +150,52 @@ public class UserController {
 
         return ResponseEntity.ok().body(responseBody);
 
+    }
+
+    /**
+     * 현재 비밀번호 확인하기
+     * @param passwordDTO
+     * @return
+     */
+    @PostMapping("/users/checkPassword")
+    public ResponseEntity<BaseResponseBody> checkPassword(@RequestBody PasswordDTO passwordDTO) {
+        BaseResponseBody responseBody = new BaseResponseBody("올바른 비밀번호 입니다.");
+        try{
+            userService.checkPassword(passwordDTO);
+
+        } catch (IllegalStateException e){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.ok().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    /**
+     * 비밀번호 변경하기
+     * @param passwordDTO
+     * @return
+     */
+    @PostMapping(value = "/users/edit")
+    public ResponseEntity<BaseResponseBody> updatePassword(@RequestBody PasswordDTO passwordDTO) {
+        BaseResponseBody responseBody = new BaseResponseBody("비밀번호 변경 성공");
+        try{
+            userService.updatePassword(passwordDTO);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
     }
 
     /**
