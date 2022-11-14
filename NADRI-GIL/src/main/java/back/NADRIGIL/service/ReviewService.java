@@ -5,6 +5,8 @@ import back.NADRIGIL.domain.Review;
 import back.NADRIGIL.domain.Travel;
 import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.cart.AddCartDTO;
+import back.NADRIGIL.dto.cart.GetMyCartListDTO;
+import back.NADRIGIL.dto.review.GetMyReviewListDTO;
 import back.NADRIGIL.dto.review.GetReviewListDTO;
 import back.NADRIGIL.dto.review.SaveReviewDTO;
 import back.NADRIGIL.dto.review.UpdateReviewDTO;
@@ -53,6 +55,27 @@ public class ReviewService {
         calculateScore = calculateScore * totalReviewCount + saveReviewDTO.getStar();
         calculateScore = calculateScore / (totalReviewCount+1);
         travel.setReviewTotal(calculateScore);
+    }
+
+    public List<GetMyReviewListDTO> getMyReviewList(String loginId) {
+        List<GetMyReviewListDTO> result = new ArrayList<>();
+        List<User> user = userRepository.findByLoginId(loginId);
+        if (user.isEmpty()) {
+            throw new IllegalStateException("로그인이 필요한 기능입니다.");
+        }
+        List<Review> myReviews = reviewRepository.findMyReviewList(user.get(0).getId());
+        for (Review myReview : myReviews) {
+            GetMyReviewListDTO review = new GetMyReviewListDTO();
+            review.setId(myReview.getId());
+            review.setStar(myReview.getStar());
+            review.setContent(myReview.getContent());
+            review.setImage(myReview.getImage());
+            review.setCreatedDate(review.changeLocalDaeTime(myReview.getCreatedDate()));
+            review.setTravelId(myReview.getTravel().getId());
+            review.setTravelName(myReview.getTravel().getName());
+            result.add(review);
+        }
+        return result;
     }
 
     public List<GetReviewListDTO> getTravelReviews(Long travelId) {

@@ -54,4 +54,15 @@ public class ReviewRepository {
                 .getResultList();
         return reviews.size();
     }
+
+    /**
+     * 해당 userId의 리뷰 리스트 반환
+     * @param userId
+     * @return
+     */
+    public List<Review> findMyReviewList(Long userId) {
+        return em.createQuery("select r from Review r where r.user.id = :userId", Review.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
 }
