@@ -104,14 +104,14 @@ public class UserController {
             if (loginUser == null) {
                 throw new IllegalStateException("로그인 실패");
             }
-            HttpSession session = request.getSession();
-            UserInfoVO userInfo = new UserInfoVO(loginUser.getId(), loginUser.getLoginId(), loginUser.getName(), loginUser.getNickname());
-            session.setAttribute("userInfo",userInfo);
-
-            Cookie idCookie = new Cookie("userId", String.valueOf(userInfo.getLoginId()));
-            idCookie.setHttpOnly(false);
-            idCookie.setPath("/");
-            response.addCookie(idCookie);
+//            HttpSession session = request.getSession();
+//            UserInfoVO userInfo = new UserInfoVO(loginUser.getId(), loginUser.getLoginId(), loginUser.getName(), loginUser.getNickname());
+//            session.setAttribute("userInfo",userInfo);
+//
+//            Cookie idCookie = new Cookie("userId", String.valueOf(userInfo.getLoginId()));
+//            idCookie.setHttpOnly(false);
+//            idCookie.setPath("/");
+//            response.addCookie(idCookie);
 
         } catch (IllegalStateException e){
             responseBody.setResultCode(-1);
@@ -148,5 +148,28 @@ public class UserController {
 
         return ResponseEntity.ok().body(responseBody);
 
+    }
+
+    /**
+     * 회원 탈퇴하기
+     * @param userId
+     * @return
+     */
+    @PostMapping(value = "/users/delete/{userId}")
+    public ResponseEntity<BaseResponseBody> deleteUser(@PathVariable Long userId) {
+        BaseResponseBody responseBody = new BaseResponseBody("유저 삭제 성공");
+        try{
+            userService.deleteReview(userId);
+
+        } catch (RuntimeException re){
+            responseBody.setResultCode(-1);
+            responseBody.setResultMsg(re.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (Exception e){
+            responseBody.setResultCode(-2);
+            responseBody.setResultMsg(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
+        return ResponseEntity.ok().body(responseBody);
     }
 }

@@ -134,6 +134,9 @@ public class UserService {
         if (findUsers.isEmpty()){
             throw new IllegalStateException("존재하지 않는 아이디 입니다.");
         }
+        if (findUsers.get(0).isDeleted() == true) {
+            throw new IllegalStateException("탈퇴된 아이디 입니다.");
+        }
         String inputPassword = getEncryptPassword(loginDto.getPassword());
         String findPassword = findUsers.get(0).getPassword();
         if (!inputPassword.equals(findPassword)) {
@@ -158,23 +161,10 @@ public class UserService {
         return getUserInfoDTO;
     }
 
-//    //회원 전체 조회
-//    public List<User> findUsers() {
-//        return userRepository.findAll();
-//    }
-//
-//    //단건 조회
-//    public User findOne(String userId) {
-//        return userRepository.findOne(userId);
-//    }
-//
-//    //비밀번호 찾기
-//    public String findPassword(String userId) {
-//        User user = userRepository.findOne(userId);
-//        if (user==null) {
-//            throw new IllegalStateException("해당 아이디는 존재하지 않습니다.");
-//        }
-//
-//        return user.getPassword();
-//    }
+    @Transactional
+    public void deleteReview(Long userId){
+        User findUser = userRepository.findOne(userId);
+
+        findUser.setDeleted(true);
+    }
 }
