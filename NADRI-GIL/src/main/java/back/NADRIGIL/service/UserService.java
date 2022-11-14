@@ -168,7 +168,7 @@ public class UserService {
      * @param passwordDTO
      */
     public void checkPassword(PasswordDTO passwordDTO) {
-        User user = userRepository.findOne(passwordDTO.getId());
+        User user = userRepository.findByLoginId(passwordDTO.getLoginId()).get(0);
 
         String inputPassword = getEncryptPassword(passwordDTO.getPassword());
         String findPassword = user.getPassword();
@@ -183,14 +183,14 @@ public class UserService {
      */
     @Transactional
     public void updatePassword(PasswordDTO passwordDTO) {
-        User findUser = userRepository.findOne(passwordDTO.getId());
+        User findUser = userRepository.findByLoginId(passwordDTO.getLoginId()).get(0);
 
         findUser.setPassword(getEncryptPassword(passwordDTO.getPassword()));
     }
 
     @Transactional
-    public void deleteReview(Long userId){
-        User findUser = userRepository.findOne(userId);
+    public void deleteReview(String loginId){
+        User findUser = userRepository.findByLoginId(loginId).get(0);
 
         findUser.setDeleted(true);
     }

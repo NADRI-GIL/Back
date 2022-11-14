@@ -200,14 +200,14 @@ public class UserController {
 
     /**
      * 회원 탈퇴하기
-     * @param userId
+     * @param loginId
      * @return
      */
-    @PostMapping(value = "/users/delete/{userId}")
-    public ResponseEntity<BaseResponseBody> deleteUser(@PathVariable Long userId) {
+    @PostMapping(value = "/users/delete/{loginId}")
+    public ResponseEntity<BaseResponseBody> deleteUser(@PathVariable String loginId) {
         BaseResponseBody responseBody = new BaseResponseBody("유저 삭제 성공");
         try{
-            userService.deleteReview(userId);
+            userService.deleteReview(loginId);
 
         } catch (RuntimeException re){
             responseBody.setResultCode(-1);
