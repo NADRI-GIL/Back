@@ -107,6 +107,8 @@ public class CourseService {
             course.setId(sharedCourse.getId());
             course.setName(sharedCourse.getName());
             course.set_shared(sharedCourse.isShared());
+            course.setWriterLoginId(sharedCourse.getUser().getLoginId());
+            course.setWriterNickname(sharedCourse.getUser().getNickname());
             List<GetCourseTravelsDTO> travels = new ArrayList<>();
             List<CourseOrder> courseOrders = courseRepository.findCourseOrderList(sharedCourse.getId());
             for (CourseOrder courseOrder : courseOrders) {

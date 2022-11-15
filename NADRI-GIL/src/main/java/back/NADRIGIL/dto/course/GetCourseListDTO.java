@@ -11,6 +11,8 @@ public class GetCourseListDTO {
     private Long id;
     private String name;
     private boolean is_shared;
+    private String writerLoginId;
+    private String writerNickname;
     private List<GetCourseTravelsDTO> courseTravels;
 
 }
