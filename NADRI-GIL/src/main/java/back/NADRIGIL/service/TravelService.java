@@ -1,6 +1,7 @@
 package back.NADRIGIL.service;
 
 import back.NADRIGIL.domain.Review;
+import back.NADRIGIL.domain.Survey;
 import back.NADRIGIL.dto.review.GetReviewListDTO;
 import back.NADRIGIL.dto.travel.*;
 import back.NADRIGIL.domain.Travel;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class TravelService {
 
     private final TravelRepository travelRepository;
     private final UserRepository userRepository;
+    private final RecommendService recommendService;
 
     @Transactional
     public void saveTravel(Travel travel){
@@ -105,9 +108,10 @@ public class TravelService {
         return result;
     }
 
-    public GetTravelDetailDTO getTravelDetail(Long travelId) {
+    public GetTravelDetailDTO getTravelDetail(Long travelId) throws IOException, InterruptedException {
         GetTravelDetailDTO getTravelDetailDto = new GetTravelDetailDTO();
         List<GetReviewListDTO> getReviewListDTOS = new ArrayList<>();
+        List<GetRecommendTravelListDTO> getRecommendTravelListDTOS = new ArrayList<>();
 
         Travel travel = travelRepository.findOne(travelId);
         getTravelDetailDto.setId(travel.getId());
@@ -133,6 +137,33 @@ public class TravelService {
             getReviewListDTOS.add(getReviewListDTO);
         }
         getTravelDetailDto.setReviews(getReviewListDTOS);
+
+        //상세페이지와 유사한 여행지들 가져오기
+        System.out.println("Python Call");
+        String[] command = new String[4];
+        command[0] = "python";
+        //command[1] = "\\workspace\\java-call-python\\src\\main\\resources\\test.py";
+        command[1] = "/Users/eunseo/Desktop/recommend/recommendCode2.py";
+        command[2] = travelId.toString();
+
+        List<GetRecommendTravelDTO> result = new ArrayList<>();
+        List<String> a = recommendService.execPython(command);
+        String c = a.get(0).substring(2);
+        String d[] = c.split("], \\[");
+        for (int j = 0; j<10;j++) {      // 추천 여행지 10개 가져옴
+            String b = d[j];
+            String e[] = b.split(", ");
+            Long i = Long.parseLong(e[0]);
+            Travel recommendTravel = travelRepository.findOne(i);
+            GetRecommendTravelListDTO getRecommendTravelListDTO = new GetRecommendTravelListDTO();
+            getRecommendTravelListDTO.setId(recommendTravel.getId());
+            getRecommendTravelListDTO.setName(recommendTravel.getName());
+            getRecommendTravelListDTO.setLocation(recommendTravel.getLocation());
+            getRecommendTravelListDTO.setImage(recommendTravel.getImage());
+            getRecommendTravelListDTO.setSimilarity(Long.parseLong(e[1]));
+            getRecommendTravelListDTOS.add(getRecommendTravelListDTO);
+        }
+        getTravelDetailDto.setRecommendTravels(getRecommendTravelListDTOS);
 
         return getTravelDetailDto;
     }

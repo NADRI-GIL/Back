@@ -32,4 +32,6 @@ public class GetTravelDetailDTO {
     private double reviewTotal;
 
     private List<GetReviewListDTO> reviews = new ArrayList<>();
+
+    private List<GetRecommendTravelListDTO> recommendTravels = new ArrayList<>();
 }
