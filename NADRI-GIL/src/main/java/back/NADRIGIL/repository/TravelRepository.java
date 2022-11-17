@@ -1,7 +1,9 @@
 package back.NADRIGIL.repository;
 
 import back.NADRIGIL.domain.Cart;
+import back.NADRIGIL.domain.Recommend;
 import back.NADRIGIL.domain.Travel;
+import back.NADRIGIL.domain.User;
 import back.NADRIGIL.dto.travel.GetSearchWordDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -35,6 +37,17 @@ public class TravelRepository {
     public List<Travel> findWord(String word) {
         return em.createQuery("select t from Travel t where t.name like concat('%',:word,'%')", Travel.class)
                 .setParameter("word", word)
+                .getResultList();
+    }
+
+    /**
+     * 상세페이지 여행지 id로 유사한 여행지들 가져오기
+     * @param originTravel
+     * @return
+     */
+    public List<Recommend> findSimilarity(Long originTravel) {
+        return em.createQuery("select r from Recommend r where r.originTravel = :originTravel", Recommend.class)
+                .setParameter("originTravel", originTravel)
                 .getResultList();
     }
 

@@ -54,6 +54,8 @@ public class CourseService {
 
         getCourseDetailDTO.setCourseName(course.getName());
         getCourseDetailDTO.setCourseContent(course.getContent());
+        getCourseDetailDTO.setNickName(course.getUser().getNickname());
+        getCourseDetailDTO.set_shared(course.isShared());
 
         for (CourseOrder courseOrder : courseOrders) {
             GetCourseTravelDetailDTO getCourseTravelDetailDTO = new GetCourseTravelDetailDTO();

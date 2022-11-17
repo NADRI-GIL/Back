@@ -10,5 +10,7 @@ public class GetCourseDetailDTO {
 
     private String courseName;
     private String courseContent;
+    private String nickName;
+    private boolean is_shared;
     private List<GetCourseTravelDetailDTO> courseTravels;
 }

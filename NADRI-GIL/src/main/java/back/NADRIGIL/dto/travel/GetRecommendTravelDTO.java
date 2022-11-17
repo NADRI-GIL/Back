@@ -9,4 +9,7 @@ public class GetRecommendTravelDTO {
     private Long id;
     private String name;
     private String image;
+    private String location;
+    private int likeCount;
+    private double reviewTotal;
 }

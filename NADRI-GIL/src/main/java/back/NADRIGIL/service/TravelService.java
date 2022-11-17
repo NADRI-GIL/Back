@@ -1,5 +1,6 @@
 package back.NADRIGIL.service;
 
+import back.NADRIGIL.domain.Recommend;
 import back.NADRIGIL.domain.Review;
 import back.NADRIGIL.domain.Survey;
 import back.NADRIGIL.dto.review.GetReviewListDTO;
@@ -139,28 +140,16 @@ public class TravelService {
         getTravelDetailDto.setReviews(getReviewListDTOS);
 
         //상세페이지와 유사한 여행지들 가져오기
-        System.out.println("Python Call");
-        String[] command = new String[4];
-        command[0] = "python";
-        //command[1] = "\\workspace\\java-call-python\\src\\main\\resources\\test.py";
-        command[1] = "/Users/eunseo/Desktop/recommend/recommendCode2.py";
-        command[2] = travelId.toString();
-
-        List<GetRecommendTravelDTO> result = new ArrayList<>();
-        List<String> a = recommendService.execPython(command);
-        String c = a.get(0).substring(2);
-        String d[] = c.split("], \\[");
+        List<Recommend> recommends = travelRepository.findSimilarity(travelId);
         for (int j = 0; j<10;j++) {      // 추천 여행지 10개 가져옴
-            String b = d[j];
-            String e[] = b.split(", ");
-            Long i = Long.parseLong(e[0]);
-            Travel recommendTravel = travelRepository.findOne(i);
+            Long recommendTravelId = recommends.get(j).getRecommendTravel();
+            Travel recommendTravel = travelRepository.findOne(recommendTravelId);
             GetRecommendTravelListDTO getRecommendTravelListDTO = new GetRecommendTravelListDTO();
             getRecommendTravelListDTO.setId(recommendTravel.getId());
             getRecommendTravelListDTO.setName(recommendTravel.getName());
             getRecommendTravelListDTO.setLocation(recommendTravel.getLocation());
             getRecommendTravelListDTO.setImage(recommendTravel.getImage());
-            getRecommendTravelListDTO.setSimilarity(Long.parseLong(e[1]));
+            getRecommendTravelListDTO.setSimilarity(recommends.get(j).getSimilarity());
             getRecommendTravelListDTOS.add(getRecommendTravelListDTO);
         }
         getTravelDetailDto.setRecommendTravels(getRecommendTravelListDTOS);

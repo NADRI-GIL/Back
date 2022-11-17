@@ -10,5 +10,5 @@ public class GetRecommendTravelListDTO {
     private String name;
     private String location;
     private String image;
-    private Long similarity;
+    private int similarity;
 }
